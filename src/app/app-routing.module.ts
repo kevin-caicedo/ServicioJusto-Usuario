@@ -10,6 +10,38 @@ const routes: Routes = [
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {
+    path: 'inicio-sesion',
+    loadChildren: () => import('./pages/inicio-sesion/inicio-sesion.module').then( m => m.InicioSesionPageModule)
+  },
+  {
+    path: 'datos-personales',
+    loadChildren: () => import('./pages/datos-personales/datos-personales.module').then( m => m.DatosPersonalesPageModule)
+  },
+  {
+    path: 'servicios',
+    loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule)
+  },
+  {
+    path: 'servicio-especifico',
+    loadChildren: () => import('./pages/servicio-especifico/servicio-especifico.module').then( m => m.ServicioEspecificoPageModule)
+  },
+  {
+    path: 'estado-solicitud',
+    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule)
+  },
+  {
+    path: 'califica-afiliado',
+    loadChildren: () => import('./pages/califica-afiliado/califica-afiliado.module').then( m => m.CalificaAfiliadoPageModule)
+  },
+  {
+    path: 'enviar-pqrs',
+    loadChildren: () => import('./pages/enviar-pqrs/enviar-pqrs.module').then( m => m.EnviarPqrsPageModule)
   }
 ];
 
