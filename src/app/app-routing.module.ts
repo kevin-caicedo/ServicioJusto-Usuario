@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'registro',
     pathMatch: 'full'
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule)
   },
   {
-    path: 'servicio-especifico',
+    path: 'servicio-especifico/:id',
     loadChildren: () => import('./pages/servicio-especifico/servicio-especifico.module').then( m => m.ServicioEspecificoPageModule)
   },
   {

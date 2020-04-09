@@ -1,9 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>servicioEspecifico</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    </ion-buttons>      
+    <ion-title> Servicio <small style="text-transform: uppercase;">{{ nombreServicio }}</small> </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
+<ion-content class="ion-padding">
+
+  <img src="https://biobrill.co/wp-content/uploads/2018/08/l2.jpg">
+
+  
+  <ion-item>
+    <ion-icon name="location-outline" slot="start"></ion-icon>
+    <ion-label>Dirección: </ion-label>
+    <ion-input placeholder="Dirección"></ion-input>
+  </ion-item>
+  
+  
 
 </ion-content>

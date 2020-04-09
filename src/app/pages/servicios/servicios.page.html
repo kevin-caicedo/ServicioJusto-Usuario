@@ -1,9 +1,35 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>servicios</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>      
+    <ion-searchbar placeholder="Buscar" slot="primary" style="width: 200px;" color="primary"></ion-searchbar>
+    <ion-title> Servicios </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-card routerLink="/servicio-especifico/aseo">
+    <img src="https://biobrill.co/wp-content/uploads/2018/08/l2.jpg"/>
+    <ion-card-header>
+      <ion-card-subtitle>Destination</ion-card-subtitle>
+      <ion-card-title>Madison, WI</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <img src="https://www.informeconstruccion.com/informeconstruccion/fotos/notas/2019/01/22/6004_20190122111653.jpg"/>
+    <ion-card-header>
+      <ion-card-subtitle>Destination</ion-card-subtitle>
+      <ion-card-title>Madison, WI</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>
