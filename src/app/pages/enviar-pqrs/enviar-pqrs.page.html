@@ -1,9 +1,40 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>enviarPqrs</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Enviar PQRS </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-item>
+    <ion-label class="ion-text-wrap">
+      En caso de tener alguna petición, queja, reclamo o sugerencia puedes enviarlo
+      por el siguiente medio
+
+    </ion-label>
+  </ion-item>
+
+  <ion-item class="ion-padding">
+    <ion-label>Opcion PQRS</ion-label>
+    <ion-select value="brown" okText="Aceptar" cancelText="Cancelar">
+      <ion-select-option value="peticion">Peticion</ion-select-option>
+      <ion-select-option value="queja">Queja</ion-select-option>
+      <ion-select-option value="reclamo">Reclamo</ion-select-option>
+      <ion-select-option value="sugerencia">Sugerencia</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item class="ion-padding">
+    <ion-label position="floating">Descripcion</ion-label>
+    <ion-textarea placeholder="Escribe aquí tu petición, queja, reclamo o sugerencia"></ion-textarea>
+  </ion-item>
+
+  <ion-button color="primary">
+    <ion-icon name="send-outline"></ion-icon>
+    Enviar
+  </ion-button>
 
 </ion-content>

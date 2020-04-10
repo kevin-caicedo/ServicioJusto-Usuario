@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
     {
       title: 'Registro',
       url: 'registro',
-      icon: 'card'
+      icon: 'add-circle'
     },
     {
       title: 'Iniciar sesión',
@@ -28,17 +28,22 @@ export class AppComponent implements OnInit {
       icon: 'headset'
     },
     {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
+      title: 'Eviar PQRS',
+      url: '/enviar-pqrs',
+      icon: 'chatbox'
     },
     {
-      title: 'Trash',
-      url: '/folder/Trash',
+      title: 'Datos personales',
+      url: '/datos-personales',
+      icon: 'person'
+    },
+    {
+      title: 'Cerrar cuenta',
+      url: '/folder/Spam',
       icon: 'trash'
     },
     {
-      title: 'Spam',
+      title: 'Cerrar sesión',
       url: '/folder/Spam',
       icon: 'warning'
     }

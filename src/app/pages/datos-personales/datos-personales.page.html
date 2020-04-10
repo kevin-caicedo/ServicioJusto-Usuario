@@ -1,9 +1,63 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>datosPersonales</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Datos personales </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-list>
+    
+    <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="call-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Celular</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="compass-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Direccion</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Fecha de nacimiento</ion-label>
+      <ion-datetime displayFormat="DD MM YY" placeholder="DD/MM/YY"></ion-datetime>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-icon name="eye-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password"></ion-input>
+    </ion-item>
+  
+    <ion-button expand="block" class="ion-padding">
+      <ion-icon slot="start" name="save-outline"></ion-icon>
+      Actualizar
+    </ion-button>
+
+  </ion-list>
 
 </ion-content>

@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
+      <ion-back-button defaultHref="/servicios"></ion-back-button>
     </ion-buttons>      
     <ion-title> Servicio <small style="text-transform: uppercase;">{{ nombreServicio }}</small> </ion-title>
   </ion-toolbar>
@@ -10,14 +11,33 @@
 <ion-content class="ion-padding">
 
   <img src="https://biobrill.co/wp-content/uploads/2018/08/l2.jpg">
-
   
   <ion-item>
     <ion-icon name="location-outline" slot="start"></ion-icon>
     <ion-label>Dirección: </ion-label>
-    <ion-input placeholder="Dirección"></ion-input>
+    <ion-input placeholder="Escriba tu dirección"></ion-input>
+  </ion-item>
+
+  <ion-item>
+  <ion-label> Método de pago </ion-label>
+  <ion-label> Efectivo </ion-label>
+  <ion-icon name="cash-outline"></ion-icon>  
+  </ion-item>
+
+  <ion-item>
+    <ion-label class="ion-text-wrap"> 
+      Tarifa        &nbsp;&nbsp;&nbsp;&nbsp; 
+      Hora: $9000   &nbsp;&nbsp;&nbsp;&nbsp; 
+      Minuto: $150  
+    </ion-label>
+    
   </ion-item>
   
-  
+  <ion-button color="primary" 
+              class="ion-padding"
+              style="margin-left: 85px;"
+              routerLink="/estado-solicitud">
+              Confirmar
+            </ion-button>
 
 </ion-content>
