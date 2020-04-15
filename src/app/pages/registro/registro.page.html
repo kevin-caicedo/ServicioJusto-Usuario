@@ -9,54 +9,81 @@
 
 <ion-content class="ion-padding">
 
-  <ion-list>
+  <form (ngSubmit)="onSubmit( f )"
+        #f="ngForm" >
+    <ion-list>
 
-    <ion-item>
-      <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Nombre</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['nombre'].errors"
+        class="text-danger">El nombre es obligatorio</span>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input  name="nombre" [(ngModel)]="usuario.nombre" required></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['apellido'].errors"
+        class="text-danger">El apellido es obligatorio</span>
+        <ion-label position="floating">Apellido</ion-label>
+        <ion-input  name="apellido" [(ngModel)]="usuario.apellido" required></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['celular'].errors"
+        class="text-danger">Al menos 10 caracteres</span>
+        <ion-label position="floating">Celular</ion-label>
+        <ion-input name="celular" [(ngModel)]="usuario.celular"  minlength="10" required></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="compass-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['direccion'].errors"
+        class="text-danger">La dirección es obligatorio</span>
+        <ion-label position="floating">Direccion</ion-label>
+        <ion-input name="direccion" [(ngModel)]="usuario.direccion" required></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label position="floating">Fecha de nacimiento</ion-label>
+        <ion-datetime displayFormat="DD MM YY"
+                      name="fechaNacimiento"                      
+                      [(ngModel)]="usuario.fechaNacimiento"
+                      cancelText="Cancelar"
+                      doneText="Hecho"
+                      placeholder="DD/MM/YY"
+                      ></ion-datetime>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <span 
+        *ngIf="f.submitted && f.controls['email'].errors"
+        class="text-danger">El correo es obligatorio</span>
+        <ion-label position="floating">Correo</ion-label>
+        <ion-input type="email" name="email" [(ngModel)]="usuario.email" required email></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        <span 
+                *ngIf="f.submitted && f.controls['password'].errors"
+                class="text-danger">Al menos 6 caracteres</span>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="usuario.password"  minlength="6" required></ion-input>
+      </ion-item>
+    
+      <ion-button expand="block" class="ion-padding" type="submit">Registrarme</ion-button>
   
-    <ion-item>
-      <ion-icon name="person-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Apellido</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <ion-icon name="call-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Celular</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <ion-icon name="compass-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Direccion</ion-label>
-      <ion-input></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <ion-icon name="calendar-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Fecha de nacimiento</ion-label>
-      <ion-datetime displayFormat="DD MM YY" placeholder="DD/MM/YY"></ion-datetime>
-    </ion-item>
-  
-    <ion-item>
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Correo</ion-label>
-      <ion-input type="email"></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <ion-icon name="eye-outline" slot="start"></ion-icon>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
-  
-    <ion-button expand="block" class="ion-padding">Registrarme</ion-button>
+    </ion-list>
 
-  </ion-list>
-
+  </form>
 
 
 </ion-content>

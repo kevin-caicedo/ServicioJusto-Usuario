@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'estado-solicitud',
-    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule)
+    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule), canActivate: [ AuthGuard ]
   },
   {
     path: 'califica-afiliado',
