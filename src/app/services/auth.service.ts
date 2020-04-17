@@ -11,6 +11,10 @@ export class AuthService {
   private url = 'https://identitytoolkit.googleapis.com/v1/accounts';
   private apikey = 'AIzaSyBar45be1zu0zqw5ZlznwH3qS9Dfcc2Cls';
 
+  private urlDatabase = 'https://proyecto-serviciojusto.firebaseio.com';
+  private idTemporal;
+
+  usuarioParaTodo: UsuarioModel = new UsuarioModel();
   adminToken: string;
 
   //Crear nuevo usuario
@@ -44,6 +48,7 @@ export class AuthService {
   ).pipe(
     map( resp=> {
         this.guardarToken(resp['idToken']);
+        this.idTemporal = resp.localId;
         return resp;
       })
     
@@ -52,6 +57,7 @@ export class AuthService {
 
   }
 
+  
   //Sevicio para registrar un nuevo administrador
   nuevoUsuario( usuario: UsuarioModel ){
 
@@ -67,11 +73,35 @@ export class AuthService {
   ).pipe(
     map( resp=> {
         this.guardarToken(resp['idToken']);
+        this.idTemporal = resp.localId;
         return resp;
       })
     
     );
-  
+  }
+
+  /**
+   * Método que agrega los demás datos que no queradon registrados
+   * @author Kevin Caicedo
+   * @param usuario 
+   */
+  nuevoUsuarioResto( usuario: UsuarioModel ){
+
+    const usuarioEnvio = {
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      celular: usuario.celular,
+      direccion: usuario.direccion,
+      fechaNacimiento: usuario.fechaNacimiento
+    };
+
+    return this.http.post(`${ this.urlDatabase }/Usuario/${this.idTemporal}.json`, usuarioEnvio);
+
+  }
+
+
+  getDatosUsuario( ){
+    return this.http.get(`${ this.url }/Usuario/${ this.idTemporal }.json`);
 
   }
   

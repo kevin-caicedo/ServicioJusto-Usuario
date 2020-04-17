@@ -28,6 +28,8 @@ export class RegistroPage implements OnInit {
 
     if( form.invalid ){ return; }
 
+    this.auth.usuarioParaTodo = this.usuario;
+
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',
@@ -37,9 +39,13 @@ export class RegistroPage implements OnInit {
 
     this.auth.nuevoUsuario( this.usuario )
       .subscribe( resp=>{
-        console.log(resp);
-        Swal.close();
+
+        this.auth.nuevoUsuarioResto( this.usuario )
+          .subscribe();
+
+        
         this.router.navigateByUrl('/servicios');
+        Swal.close();
 
         }, (err)=>{
         console.log(err);

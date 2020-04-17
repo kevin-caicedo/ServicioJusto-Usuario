@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ServiciosService } from '../../services/servicios.service';
+import { ServicioModel } from '../../models/servicio.model';
 
 @Component({
   selector: 'app-servicio-especifico',
@@ -8,12 +10,19 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ServicioEspecificoPage implements OnInit {
 
-  nombreServicio: string;
+  servicio = new ServicioModel();
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService) { }
 
   ngOnInit() {
-    this.nombreServicio = this.activatedRoute.snapshot.paramMap.get('id');
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.servicioService.getServicio( id )
+        .subscribe((resp: ServicioModel) => {
+          this.servicio = resp;
+          this.servicio.id = id;
+        });
+
   }
 
 }

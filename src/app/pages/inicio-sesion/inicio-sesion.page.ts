@@ -32,6 +32,8 @@ export class InicioSesionPage implements OnInit {
 
     if( form.invalid ){ return; }
 
+    this.auth.usuarioParaTodo = this.usuario;
+
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',
@@ -41,7 +43,7 @@ export class InicioSesionPage implements OnInit {
 
     this.auth.login( this.usuario )
       .subscribe(resp=>{
-        console.log(resp);
+  
         Swal.close();
 
         if( this.recordarme ){
@@ -53,7 +55,6 @@ export class InicioSesionPage implements OnInit {
         this.router.navigateByUrl('/servicios');
 
       }, (err)=>{
-        console.log(err.error.error.message);
         Swal.fire({
           icon: 'error',
           title: 'Error al autenticar',

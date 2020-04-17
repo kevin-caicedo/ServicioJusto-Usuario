@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { UsuarioModel } from './models/Usuario.model';
 
 
 @Component({
@@ -13,6 +14,9 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  //Ver despues como mostrar correo y nombre de la persona en el menu
+  //usuario: UsuarioModel = this.auth.usuarioParaTodo;
   public selectedIndex = 0;
   public appPages = [
     {
@@ -46,7 +50,6 @@ export class AppComponent implements OnInit {
       icon: 'trash'
     }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
     private platform: Platform,
@@ -65,11 +68,21 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // autenticado: boolean;
+
   ngOnInit() {
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
     }
+
+    // this.autenticado = this.auth.estaAutenticado();
+
+    // if( this.autenticado ){
+    //   this.usuario = this.auth.usuarioParaTodo;
+    // }
+
+    // console.log("Estoy conectado", this.usuario);
   }
 
   cerrarSesion(){

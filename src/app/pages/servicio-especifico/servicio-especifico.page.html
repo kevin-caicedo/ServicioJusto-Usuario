@@ -3,14 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/servicios"></ion-back-button>
     </ion-buttons>      
-    <ion-title> Servicio <small style="text-transform: uppercase;">{{ nombreServicio }}</small> </ion-title>
+    <ion-title> Servicio <small style="text-transform: uppercase;">{{ servicio.nombreServicio }}</small> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content class="ion-padding">
 
-  <img src="https://biobrill.co/wp-content/uploads/2018/08/l2.jpg">
+  <img [src]="servicio.imagen">
   
   <ion-item>
     <ion-icon name="location-outline" slot="start"></ion-icon>
@@ -27,8 +27,8 @@
   <ion-item>
     <ion-label class="ion-text-wrap"> 
       Tarifa        &nbsp;&nbsp;&nbsp;&nbsp; 
-      Hora: $9000   &nbsp;&nbsp;&nbsp;&nbsp; 
-      Minuto: $150  
+      Hora: ${{servicio.precioMinuto*60}}   &nbsp;&nbsp;&nbsp;&nbsp; 
+      Minuto: ${{servicio.precioMinuto}}
     </ion-label>
     
   </ion-item>
