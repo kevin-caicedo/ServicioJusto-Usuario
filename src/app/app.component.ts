@@ -41,12 +41,12 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Datos personales',
-      url: '/datos-personales',
+      url: '/datos-personales/actualiza',
       icon: 'person'
     },
     {
       title: 'Cerrar cuenta',
-      url: '/folder/Spam',
+      url: '/cerrar-cuenta',
       icon: 'trash'
     }
   ];

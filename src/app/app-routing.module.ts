@@ -21,8 +21,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/inicio-sesion/inicio-sesion.module').then( m => m.InicioSesionPageModule)
   },
   {
-    path: 'datos-personales',
-    loadChildren: () => import('./pages/datos-personales/datos-personales.module').then( m => m.DatosPersonalesPageModule)
+    path: 'datos-personales/:id',
+    loadChildren: () => import('./pages/datos-personales/datos-personales.module').then( m => m.DatosPersonalesPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'servicios',
@@ -34,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: 'estado-solicitud',
-    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule), canActivate: [ AuthGuard ]
+    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule)
   },
   {
     path: 'califica-afiliado',
@@ -43,6 +43,14 @@ const routes: Routes = [
   {
     path: 'enviar-pqrs',
     loadChildren: () => import('./pages/enviar-pqrs/enviar-pqrs.module').then( m => m.EnviarPqrsPageModule)
+  },
+  {
+    path: 'buscar/:termino',
+    loadChildren: () => import('./pages/buscar/buscar.module').then( m => m.BuscarPageModule)
+  },
+  {
+    path: 'cerrar-cuenta',
+    loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule)
   }
 ];
 

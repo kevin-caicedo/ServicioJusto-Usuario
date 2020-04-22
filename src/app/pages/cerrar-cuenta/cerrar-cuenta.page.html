@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Cerrar cuenta </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <h1>CERRAR CUENTA</h1>
+
+  <ion-list>
+    
+    <ion-list-header><h2>¡¡Tener en cuenta!!</h2></ion-list-header>
+    <ion-item>
+      <ion-label class="ion-text-wrap">Si eliminas tu cuenta, no podrás volver a iniciar sesión ni utilizar los servicios
+        de Servicio Justo. 
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="ion-text-wrap" style="color: red;">
+        ¿Estas seguro de que deseas eliminar tu cuenta para siempre? 
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+  
+  <div class="container-login100-form-btn m-t-17">
+    <button class="login100-form-btn" type="submit" color="primary" (click)="cerrarCuenta()">
+      Cerrar cuenta
+    </button>
+  </div>
+
+</ion-content>

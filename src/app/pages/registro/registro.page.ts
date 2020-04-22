@@ -21,14 +21,13 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.usuario = new UsuarioModel();
-
   }
 
   onSubmit( form: NgForm ){
 
     if( form.invalid ){ return; }
 
-    this.auth.usuarioParaTodo = this.usuario;
+    
 
     Swal.fire({
       allowOutsideClick: false,
@@ -39,11 +38,6 @@ export class RegistroPage implements OnInit {
 
     this.auth.nuevoUsuario( this.usuario )
       .subscribe( resp=>{
-
-        this.auth.nuevoUsuarioResto( this.usuario )
-          .subscribe();
-
-        
         this.router.navigateByUrl('/servicios');
         Swal.close();
 

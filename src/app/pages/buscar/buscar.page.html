@@ -1,14 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/servicios"></ion-back-button>
     </ion-buttons>      
-    <ion-searchbar placeholder="Buscar" style="width: 180px;" color="primary" class="ion-padding" slot="primary" (keyup.enter)="buscarServicio( buscarTexto.value )" #buscarTexto></ion-searchbar>
-    <ion-title style="padding-left: 0px;"> Servicios </ion-title>
+    <ion-title> Buscando: <small style="text-transform: uppercase;">{{ termino }}</small> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-note color="danger" 
+            class="ion-padding"
+            style="font-size: large;"
+            *ngIf="servicios.length === 0" >No existe resultado con el termino: {{ termino }}</ion-note>
 
   <ion-card  [routerLink]="['/servicio-especifico', servicio.id]" *ngFor="let servicio of servicios">
     <img [src]="servicio.imagen"/>

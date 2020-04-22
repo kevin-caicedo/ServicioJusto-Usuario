@@ -32,7 +32,7 @@ export class InicioSesionPage implements OnInit {
 
     if( form.invalid ){ return; }
 
-    this.auth.usuarioParaTodo = this.usuario;
+    
 
     Swal.fire({
       allowOutsideClick: false,
@@ -62,6 +62,32 @@ export class InicioSesionPage implements OnInit {
         });
       });
 
+  }
+
+  recuperar(){
+
+    if( !this.usuario.email ){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Email',
+        text: 'Tienes que diligenciar el campo correo electrónico para recuperar contraseña',
+      })
+      return;
+    }
+
+    this.auth.recuperarContrasena( this.usuario.email ).subscribe( resp=>{
+      Swal.fire({
+        icon: 'success',
+        title: 'Recupera tu contraseña',
+        text: 'Ya te llegó el correo para restablecer contraseña, ¡¡revísalo!!',
+      })
+    }, (err)=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'CORREO NO ENCONTRADO'
+      });
+    })
   }
 
 }

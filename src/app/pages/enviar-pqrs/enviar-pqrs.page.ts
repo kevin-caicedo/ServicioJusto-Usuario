@@ -3,6 +3,8 @@ import { PqrsModel } from '../../models/pqrs.model';
 import { PqrsService } from '../../services/pqrs.service';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
+import { UsuarioModel } from '../../models/Usuario.model';
 
 @Component({
   selector: 'app-enviar-pqrs',
@@ -12,10 +14,31 @@ import Swal from 'sweetalert2';
 export class EnviarPqrsPage implements OnInit {
 
   pqrs: PqrsModel = new PqrsModel();
+  usuario: UsuarioModel = new UsuarioModel();
+  usuarioArray: UsuarioModel[] = [];
 
-  constructor( private pqrsService: PqrsService ) { }
+  constructor( private pqrsService: PqrsService, private auth: AuthService ) { }
 
   ngOnInit() {
+
+    this.traeDato();
+  }
+
+  traeDato(){
+
+    this.auth.getTodosUsuario().subscribe(resp=>{
+      this.usuarioArray = resp;
+
+    for(let obj of this.usuarioArray){
+      if(this.auth.leerLocalId() == obj.typeId){
+        this.pqrs.nombre = obj.nombre;
+        this.pqrs.apellido = obj.apellido;
+      }
+    }
+    
+    });
+
+
   }
   
   nuevoPqrs( form: NgForm ){
@@ -24,11 +47,7 @@ export class EnviarPqrsPage implements OnInit {
       console.log('Formulario inválido');
       return;
     }
-
-    this.pqrs.nombre = "prueba";
-    this.pqrs.apellido = "tambiénPrueba";
-
-    
+  
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',

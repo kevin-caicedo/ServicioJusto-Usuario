@@ -42,5 +42,26 @@ export class ServiciosService {
     return this.http.get(`${ this.url }/Servicio/${ id }.json`);
   }
 
+  servicios: ServicioModel[] = [];
+
+  buscando( termino: string ){
+
+    this.getServicios().subscribe( resp=> this.servicios = resp );
+
+    
+    let servicioArr: ServicioModel[] = [];
+    termino = termino.toLowerCase();
+
+    for( let servicio of this.servicios ){
+
+      let nombre = servicio.nombreServicio.toLowerCase();
+
+      if( nombre.indexOf( termino ) >= 0 ){
+        servicioArr.push( servicio )
+      }
+    }
+
+    return servicioArr;
+  }
 
 }

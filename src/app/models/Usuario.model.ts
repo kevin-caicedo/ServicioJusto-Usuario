@@ -1,6 +1,7 @@
 
 export class UsuarioModel{
 
+    id: string;
     email: string;
     password: string;
     nombre: string;
@@ -8,4 +9,5 @@ export class UsuarioModel{
     celular: string;
     direccion: string;
     fechaNacimiento: Date;
+    typeId: string;
 }
