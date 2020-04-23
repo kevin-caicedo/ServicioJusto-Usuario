@@ -32,8 +32,6 @@ export class InicioSesionPage implements OnInit {
 
     if( form.invalid ){ return; }
 
-    
-
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',
@@ -70,8 +68,8 @@ export class InicioSesionPage implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: 'Email',
-        text: 'Tienes que diligenciar el campo correo electrónico para recuperar contraseña',
-      })
+        text: 'Tienes que diligenciar el campo CORREO electrónico para recuperar contraseña',
+      });
       return;
     }
 

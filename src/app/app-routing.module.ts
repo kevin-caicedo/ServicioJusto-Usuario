@@ -33,7 +33,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/servicio-especifico/servicio-especifico.module').then( m => m.ServicioEspecificoPageModule)
   },
   {
-    path: 'estado-solicitud',
+    path: 'estado-solicitud/:id',
     loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule)
   },
   {

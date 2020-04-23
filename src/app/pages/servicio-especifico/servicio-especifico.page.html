@@ -15,7 +15,7 @@
   <ion-item>
     <ion-icon name="location-outline" slot="start"></ion-icon>
     <ion-label>Dirección: </ion-label>
-    <ion-input placeholder="Escriba tu dirección"></ion-input>
+    <ion-input placeholder="Escriba tu dirección" [(ngModel)]="peticion.direccion"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -36,7 +36,8 @@
   <ion-button color="primary" 
               class="ion-padding"
               style="margin-left: 85px;"
-              routerLink="/estado-solicitud">
+              (click)="confirmacion()"
+              >
               Confirmar
             </ion-button>
 

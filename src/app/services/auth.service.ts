@@ -97,7 +97,6 @@ export class AuthService {
         .pipe(
           map( (resp:any)=>{
             usuario.id = resp.name;
-            console.log(usuario.id);
             return usuario;
           } )
         ) ;

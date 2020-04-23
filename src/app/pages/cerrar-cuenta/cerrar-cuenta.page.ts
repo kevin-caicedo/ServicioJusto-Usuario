@@ -25,7 +25,6 @@ export class CerrarCuentaPage implements OnInit {
   traeDato(){
 
     this.auth.getTodosUsuario().subscribe(resp=>{
-      console.log(resp);
       this.usuarioArray = resp;
 
       for(let item of this.usuarioArray){
