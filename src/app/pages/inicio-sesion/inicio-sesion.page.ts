@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { UsuarioModel } from '../../models/Usuario.model';
 import { AuthService } from '../../services/auth.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -17,7 +18,8 @@ export class InicioSesionPage implements OnInit {
    recordarme = false;
 
   constructor(  private auth: AuthService,
-                private router: Router ) { }
+                private router: Router,
+                private loadingController: LoadingController ) { }
 
   ngOnInit(  ) {
 
@@ -41,7 +43,7 @@ export class InicioSesionPage implements OnInit {
 
     this.auth.login( this.usuario )
       .subscribe(resp=>{
-  
+
         Swal.close();
 
         if( this.recordarme ){
@@ -50,6 +52,8 @@ export class InicioSesionPage implements OnInit {
           localStorage.removeItem('email');
         }
 
+        setTimeout(() => location.reload(), 1000);
+        
         this.router.navigateByUrl('/servicios');
 
       }, (err)=>{

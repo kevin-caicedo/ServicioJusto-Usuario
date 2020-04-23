@@ -52,6 +52,19 @@ export class PeticionesService {
 
   }
 
+  //Método para calificar afiliado
+  calificaAfiliado( peticion: PeticionModel ){
+
+    const peticionTemp = {
+      ...peticion
+    }
+
+    delete peticionTemp.id;
+    
+    return this.http.put(`${ this.urlDatabase }/Peticiones/${ peticion.id }.json`, peticionTemp);
+
+  }
+
   private crearArregloServicio( servicioObj: object){
     
     const usuarioArray: AfiliadoModel[] = [];

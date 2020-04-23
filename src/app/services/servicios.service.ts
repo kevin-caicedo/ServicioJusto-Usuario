@@ -60,7 +60,6 @@ export class ServiciosService {
         servicioArr.push( servicio )
       }
     }
-
     return servicioArr;
   }
 

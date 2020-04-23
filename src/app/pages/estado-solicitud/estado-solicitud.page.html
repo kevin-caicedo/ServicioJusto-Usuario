@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" (click)="cancelar()">
       <ion-back-button></ion-back-button>
     </ion-buttons>      
     <ion-buttons slot="primary">
@@ -70,7 +70,7 @@
       <ion-label>
         <ion-text>
           <p>Tiempo</p>
-          <p>2 horas</p>
+          <p>{{ hora / 60 }} horas</p>
         </ion-text>
       </ion-label>
 
@@ -87,8 +87,8 @@
       </ion-label>
       <ion-label>
         <ion-text>
-          <p>Valor</p>
-          <p>$18.000</p>
+          <p>Valor aproximado</p>
+          <p>${{ servicio.precioMinuto * hora }}</p>
         </ion-text>
       </ion-label>
     </ion-item>
@@ -119,8 +119,9 @@
       </ion-label>
     </ion-item>
 
-    <ion-button color="danger" class="ion-padding" style="margin-left: 50px;" (click)="cancelar()" *ngIf="peticion.estado=='solicitado' || peticion.estado=='aceptado'">Cancelar Servicio</ion-button>
-    <ion-button color="success" class="ion-padding" style="margin-left: 50px;" (click)="calificar()" *ngIf="peticion.estado=='ejecucion' || peticion.estado=='finalizado'">Calificar afiliado</ion-button>
+    <ion-button  expand="full" color="danger" class="ion-padding" (click)="cancelar()" *ngIf="peticion.estado=='solicitado' || peticion.estado=='aceptado'">Cancelar Servicio</ion-button>
+    <ion-button  expand="full" color="success" class="ion-padding"  id="ocultar" (click)="presentAlertRadio()" *ngIf="peticion.estado=='finalizado'">Calificar afiliado</ion-button>
+    <ion-button  expand="full" color="danger" class="ion-padding" *ngIf="peticion.estado=='finalizado'" (click)="salir()">Salir</ion-button>
 
   </ion-list>
 

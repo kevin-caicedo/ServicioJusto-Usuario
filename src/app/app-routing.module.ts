@@ -34,15 +34,11 @@ const routes: Routes = [
   },
   {
     path: 'estado-solicitud/:id',
-    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule)
-  },
-  {
-    path: 'califica-afiliado',
-    loadChildren: () => import('./pages/califica-afiliado/califica-afiliado.module').then( m => m.CalificaAfiliadoPageModule)
+    loadChildren: () => import('./pages/estado-solicitud/estado-solicitud.module').then( m => m.EstadoSolicitudPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'enviar-pqrs',
-    loadChildren: () => import('./pages/enviar-pqrs/enviar-pqrs.module').then( m => m.EnviarPqrsPageModule)
+    loadChildren: () => import('./pages/enviar-pqrs/enviar-pqrs.module').then( m => m.EnviarPqrsPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'buscar/:termino',
@@ -50,7 +46,7 @@ const routes: Routes = [
   },
   {
     path: 'cerrar-cuenta',
-    loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule)
+    loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule), canActivate: [AuthGuard]
   }
 ];
 

@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { PeticionesService } from '../../services/peticiones.service';
 import { AfiliadoModel } from '../../models/afiliado.model';
+import { AlertController } from '@ionic/angular';
+import { ServiciosService } from '../../services/servicios.service';
+import { ServicioModel } from '../../models/servicio.model';
 
 @Component({
   selector: 'app-estado-solicitud',
@@ -15,10 +18,12 @@ export class EstadoSolicitudPage implements OnInit {
   peticion: PeticionModel = new PeticionModel();
   afiliadoArray: AfiliadoModel[] = [];
   afiliado: AfiliadoModel = new AfiliadoModel();
-  
+  servicio: ServicioModel = new ServicioModel();
+  hora = 120;
 
   constructor( private activatedRoute: ActivatedRoute, private router: Router,
-                private _peticiones: PeticionesService ) { }
+                private _peticiones: PeticionesService, public alertController: AlertController,
+                private _service: ServiciosService ) { }
 
   ngOnInit() {
 
@@ -47,15 +52,14 @@ export class EstadoSolicitudPage implements OnInit {
 
           }
         }
-        
+      });
 
-        
+      this._service.getServicio( this.peticion.idServicio ).subscribe( (resp: ServicioModel)=>{
+        this.servicio = resp;
 
       });
+
     });
-
-    
-
   }
 
   cancelar(){
@@ -76,8 +80,83 @@ export class EstadoSolicitudPage implements OnInit {
 
   }
 
-  calificar(){
-    console.log("Calificando usuario");
+  async presentAlertRadio() {
+    const alert = await this.alertController.create({
+      header: `Calificando a ${ this.afiliado.Nombre } `,
+      inputs: [
+        {
+          name: 'radio1',
+          type: 'radio',
+          label: '1',
+          value: 1,
+          checked: true
+        },
+        {
+          name: 'radio2',
+          type: 'radio',
+          label: '2',
+          value: 2
+        },
+        {
+          name: 'radio3',
+          type: 'radio',
+          label: '3',
+          value: 3
+        },
+        {
+          name: 'radio4',
+          type: 'radio',
+          label: '4',
+          value: 4
+        },
+        {
+          name: 'radio5',
+          type: 'radio',
+          label: '5',
+          value: 5
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Ok',
+          handler: ( valor ) => {
+            this.peticion.calificacionAfiliado = valor;
+            this._peticiones.calificaAfiliado( this.peticion ).subscribe((resp: PeticionModel)=>{
+              this.peticion.calificacionAfiliado = resp.calificacionAfiliado;
+              const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                onOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+              })
+              
+              Toast.fire({
+                icon: 'success',
+                title: 'Tu calificacion ha sido guardada'
+              })
+            });
+
+            //Ocultar botón
+            document.getElementById("ocultar").style.display='none';
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  salir(){
+    this.router.navigate(['servicios']);
   }
 
 }
