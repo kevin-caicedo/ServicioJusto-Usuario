@@ -11,4 +11,5 @@ export class ServicioModel {
         this.precioMinuto = 0;
     }
 
+    idPeticion: string;
 }

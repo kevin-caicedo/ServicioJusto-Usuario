@@ -37,7 +37,7 @@
         *ngIf="f.submitted && f.controls['celular'].errors"
         class="text-danger">Al menos 10 caracteres</span>
         <ion-label position="floating">Celular</ion-label>
-        <ion-input name="celular" [(ngModel)]="usuario.celular"  minlength="10" required></ion-input>
+        <ion-input name="celular" [(ngModel)]="usuario.celular"  minlength="10" required type="number"></ion-input>
       </ion-item>
     
       <ion-item>
@@ -52,12 +52,12 @@
       <ion-item>
         <ion-icon name="calendar-outline" slot="start"></ion-icon>
         <ion-label position="floating">Fecha de nacimiento</ion-label>
-        <ion-datetime displayFormat="DD MM YY"
+        <ion-datetime displayFormat="DD MM YYYY"
                       name="fechaNacimiento"                      
                       [(ngModel)]="usuario.fechaNacimiento"
                       cancelText="Cancelar"
                       doneText="Hecho"
-                      placeholder="DD/MM/YY"
+                      placeholder="DD/MM/YYYY"
                       ></ion-datetime>
       </ion-item>
     

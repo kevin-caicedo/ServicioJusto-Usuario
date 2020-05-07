@@ -27,8 +27,6 @@ export class RegistroPage implements OnInit {
 
     if( form.invalid ){ return; }
 
-    
-
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',
@@ -38,6 +36,14 @@ export class RegistroPage implements OnInit {
 
     this.auth.nuevoUsuario( this.usuario )
       .subscribe( resp=>{
+
+        if( localStorage.getItem('idServicio') ){
+
+          this.router.navigateByUrl(`/servicio-especifico/${ localStorage.getItem('idServicio') }`);
+          localStorage.removeItem('idServicio');
+          setTimeout(() => location.reload(), 1000);
+          return;
+        }
         this.router.navigateByUrl('/servicios');
         Swal.close();
 

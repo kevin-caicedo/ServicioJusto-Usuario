@@ -10,4 +10,5 @@ export class UsuarioModel{
     direccion: string;
     fechaNacimiento: Date;
     typeId: string;
+    calificacion: any;
 }

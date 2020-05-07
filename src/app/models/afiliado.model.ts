@@ -8,4 +8,5 @@ export class AfiliadoModel{
     Telefono: string;
     fotoPerfil: string;
     typeIdAfiliado: string;
+    typeIdUsuario: string;
 }

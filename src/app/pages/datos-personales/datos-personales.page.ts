@@ -17,7 +17,7 @@ export class DatosPersonalesPage implements OnInit {
   usuarioArray: UsuarioModel[] = [];
 
   constructor( private auth: AuthService, 
-                private route: ActivatedRoute  ) { 
+                private route: ActivatedRoute) { 
     
     this.usuario = new UsuarioModel();
   }
@@ -66,7 +66,10 @@ export class DatosPersonalesPage implements OnInit {
 
     if(this.usuario.id){
       peticion = this.auth.actualizarUsuario( this.usuario );
+      this.auth.cambiaContrasena( this.usuario ).subscribe();
     }
+    
+    
 
     peticion.subscribe( resp=> {
       Swal.fire({

@@ -15,7 +15,7 @@ export class PeticionesService {
 
   /**
    * Método para agregar la petición que solicita cada usuario
-   * @author Kevin CAicedo
+   * @author Kevin Caicedo
    * @param peticion 
    */
   agregarPeticion( peticion: PeticionModel ){
@@ -83,6 +83,34 @@ export class PeticionesService {
 
     return usuarioArray;
   }
+
+  getPeticiones(){
+    return this.http.get(`${ this.urlDatabase }/Peticiones.json`)
+      .pipe(
+        map( this.crearArregloPeticion )
+      ); 
+  }
+
+  private crearArregloPeticion( servicioObj: object){
+    
+    const servicioArray: PeticionModel[] = [];
+
+    if( servicioObj === null ){
+      return [];
+    }
+
+    Object.keys( servicioObj ).forEach( key =>{
+
+      const servicio: PeticionModel = servicioObj[key];
+      servicio.id = key;
+
+      servicioArray.push( servicio );
+    });
+
+    return servicioArray;
+  }
+
+
 
 
 }

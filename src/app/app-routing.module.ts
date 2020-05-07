@@ -47,6 +47,10 @@ const routes: Routes = [
   {
     path: 'cerrar-cuenta',
     loadChildren: () => import('./pages/cerrar-cuenta/cerrar-cuenta.module').then( m => m.CerrarCuentaPageModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'mis-pedidos',
+    loadChildren: () => import('./pages/mis-pedidos/mis-pedidos.module').then( m => m.MisPedidosPageModule)
   }
 ];
 

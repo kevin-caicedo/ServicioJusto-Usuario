@@ -49,7 +49,12 @@ export class AppComponent implements OnInit {
           icon: 'headset'
         },
         {
-          title: 'Eviar PQRS',
+          title: 'Mis pedidos',
+          url: '/mis-pedidos',
+          icon: 'reader'
+        },
+        {
+          title: 'Enviar PQRS',
           url: '/enviar-pqrs',
           icon: 'chatbox'
         },

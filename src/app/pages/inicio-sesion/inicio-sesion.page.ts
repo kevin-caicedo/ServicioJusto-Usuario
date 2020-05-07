@@ -52,6 +52,14 @@ export class InicioSesionPage implements OnInit {
           localStorage.removeItem('email');
         }
 
+        if( localStorage.getItem('idServicio') ){
+
+          this.router.navigateByUrl(`/servicio-especifico/${ localStorage.getItem('idServicio') }`);
+          localStorage.removeItem('idServicio');
+          setTimeout(() => location.reload(), 1000);
+          return;
+
+        }
         setTimeout(() => location.reload(), 1000);
         
         this.router.navigateByUrl('/servicios');

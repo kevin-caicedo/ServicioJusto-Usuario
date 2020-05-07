@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Mis pedidos </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list *ngFor="let servicio of servicioArray; let i = index">
+    
+    <ion-item>
+      <ion-avatar slot="start">
+        <img [src]="servicio.imagen">
+      </ion-avatar>
+      <ion-label>
+        <h2>Servicio {{ servicio.nombreServicio }}</h2>
+        <h3>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          {{ nombreAfiliado }} {{ apellidoAfiliado }}
+        </h3>
+        <ion-button color="primary" (click)="mefue( servicio )">
+          ¿Como te fue?
+        </ion-button>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

@@ -20,10 +20,16 @@ export class ServicioEspecificoPage implements OnInit {
   usuarioArray: UsuarioModel[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService, 
-    private router: Router, private auth: AuthService, private _peticion: PeticionesService) { }
+    private router: Router, private auth: AuthService, private _peticion: PeticionesService,
+    private _auth: AuthService) { }
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    if(!this._auth.estaAutenticado()){
+      localStorage.setItem('idServicio', id);
+    }
+    
 
     this.servicioService.getServicio( id )
         .subscribe((resp: ServicioModel) => {

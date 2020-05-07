@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { UsuarioModel } from '../models/Usuario.model';
 import { map } from 'rxjs/operators';
 
@@ -82,13 +82,16 @@ export class AuthService {
    */
   nuevoUsuarioResto( usuario: UsuarioModel, resp: any ){
 
+    usuario.calificacion = {valor: 5, contador: 0};
+
     const usuarioEnvio = {
       typeId: resp.localId,
       nombre: usuario.nombre,
       apellido: usuario.apellido,
       celular: usuario.celular,
       direccion: usuario.direccion,
-      fechaNacimiento: usuario.fechaNacimiento
+      fechaNacimiento: usuario.fechaNacimiento,
+      calificacion: usuario.calificacion
     };
 
     this.guardarLocalId(usuarioEnvio.typeId);
@@ -226,4 +229,16 @@ export class AuthService {
 
     return this.http.post(`${ this.url }:sendOobCode?key=${ this.apikey }`, recupera);
   }
+  
+  cambiaContrasena( usuario: UsuarioModel ){
+
+    const usuarioTemp = {
+      idToken: localStorage.getItem('token'),
+      password: usuario.password,
+      returnSecureToken: false
+    }
+
+    return this.http.post(`${ this.url }:update?key=${ this.apikey }`, usuarioTemp);
+  }
+
 }
