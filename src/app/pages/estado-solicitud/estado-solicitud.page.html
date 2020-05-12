@@ -22,7 +22,7 @@
         pullingIcon="chevron-down-circle-outline"
         pullingText="Pull to refresh"
         refreshingSpinner="circles"
-        refreshingText="Refreshing...">
+        refreshingText="Recargando...">
       </ion-refresher-content>
     </ion-refresher>
 
@@ -72,19 +72,9 @@
       <ion-label>
         <ion-text>
           <p>Direccion</p>
-         <p>{{ peticion.direccion }}</p>
+         <p>{{ direccion }}</p>
         </ion-text>
       </ion-label>
-
-      <ion-icon name="time-outline"></ion-icon>
-      <ion-label>
-        <ion-text>
-          <p>Tiempo</p>
-          <p>{{ hora / 60 }} horas</p>
-        </ion-text>
-      </ion-label>
-
-
     </ion-item>
 
     <ion-item>
@@ -92,7 +82,7 @@
       <ion-label>
         <ion-text>
           <p>Método de pago</p>
-          <p>efectivo</p>
+          <p>efectivo o tarjeta</p>
         </ion-text>
       </ion-label>
       <ion-label>

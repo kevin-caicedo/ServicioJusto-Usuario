@@ -8,6 +8,7 @@ import { PqrsModel } from '../../models/pqrs.model';
 import { PqrsService } from '../../services/pqrs.service';
 import { AuthService } from '../../services/auth.service';
 import { UsuarioModel } from '../../models/Usuario.model';
+import { AfiliadoModel } from '../../models/afiliado.model';
 
 @Component({
   selector: 'app-mis-pedidos',
@@ -19,6 +20,7 @@ export class MisPedidosPage implements OnInit {
   peticionArray: PeticionModel[] = [];
   servicioArray: ServicioModel[] = [];
   usuarioArray: UsuarioModel[] = [];
+  afiliadoArray: AfiliadoModel[] = [];
   nombreAfiliado: string;
   apellidoAfiliado: string;
   pqrsEnvio: PqrsModel = new PqrsModel();
@@ -37,24 +39,23 @@ export class MisPedidosPage implements OnInit {
       for( let item of this.peticionArray ){
         if( item.typeIdUsuario == localStorage.getItem('localId')){
 
-          this._servicio.getServicio( item.idServicio ).subscribe( (resp:ServicioModel)=>{
-            resp.idPeticion = item.id;
-            this.servicioArray.push(resp);
-          });
+          this._servicio.getServicio( item.idServicio ).subscribe( (serv:ServicioModel)=>{
+            serv.idPeticion = item.id;
 
-          this._peticion.getAfiliados().subscribe( resp=>{
-            for(let datos of resp){
-              if( item.typeIdAfiliado == datos.typeIdAfiliado ){
-                this.nombreAfiliado = datos.Nombre;
-                this.apellidoAfiliado = datos.Apellido;
+            this._peticion.getAfiliados().subscribe( resp=>{
+              this.afiliadoArray = resp;
+              for( let obj of this.afiliadoArray ){
+                if( item.typeIdAfiliado == obj.typeIdAfiliado ){
+                  serv.nombreAfiliado = obj.Nombre;
+                  serv.apellidoAfiliado = obj.Apellido
+                  this.servicioArray.push(serv);
+                }
               }
-            }
-          })
-
+            })  
+          });
         }
       }
     });
-
   }
 
   numero: string;

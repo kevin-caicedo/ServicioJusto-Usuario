@@ -7,6 +7,7 @@ import { PeticionModel } from '../../models/peticion.model';
 import { AuthService } from '../../services/auth.service';
 import { UsuarioModel } from '../../models/Usuario.model';
 import { PeticionesService } from 'src/app/services/peticiones.service';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 
 @Component({
   selector: 'app-servicio-especifico',
@@ -18,19 +19,26 @@ export class ServicioEspecificoPage implements OnInit {
   servicio = new ServicioModel();
   peticion: PeticionModel = new PeticionModel();
   usuarioArray: UsuarioModel[] = [];
+  direccion: string;
 
   constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService, 
-    private router: Router, private auth: AuthService, private _peticion: PeticionesService,
-    private _auth: AuthService) { }
+              private router: Router,
+              private auth: AuthService, 
+              private _peticion: PeticionesService,
+              private _auth: AuthService,
+              public geolocation: Geolocation) { }
 
   ngOnInit() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
 
+    this.geolocation.getCurrentPosition().then((geoposition: Geoposition)=>{
+      this.peticion.direccion = geoposition.coords.latitude + "," + geoposition.coords.longitude;
+    })
+    
+
     if(!this._auth.estaAutenticado()){
       localStorage.setItem('idServicio', id);
     }
-    
-
     this.servicioService.getServicio( id )
         .subscribe((resp: ServicioModel) => {
           this.servicio = resp;
@@ -40,6 +48,13 @@ export class ServicioEspecificoPage implements OnInit {
 
     this.traeUsuario();
 
+
+  }
+
+  geolocationPerson(){
+    this.geolocation.getCurrentPosition().then((geoposition: Geoposition)=>{
+      
+    })
   }
 
   traeUsuario(){
@@ -50,6 +65,7 @@ export class ServicioEspecificoPage implements OnInit {
       for(let item of this.usuarioArray){
         if( this.auth.leerLocalId() == item.typeId ){
           this.peticion.typeIdUsuario = item.typeId;
+          this.direccion = item.direccion;
         }
       }
     });
@@ -60,18 +76,9 @@ export class ServicioEspecificoPage implements OnInit {
 
     this.peticion.codigo = Math.floor(Math.random()*1000000);
 
-    if(!this.peticion.direccion){
-      Swal.fire({
-        icon: 'warning',
-        title: 'Direccion',
-        text: 'Tienes que diligenciar el campo DIRECCIÓN para realizar tu solicitud',
-      });
-      return;
-    }
-
     Swal.fire({
       title: '¿Está seguro?',
-      text: `Está seguro que desea comenzar el servicio`,
+      text: `Está seguro que desea comenzar el servicio tu dirección es tu ubicación`,
       icon: "question",
       showConfirmButton: true,
       showCancelButton: true
@@ -85,9 +92,6 @@ export class ServicioEspecificoPage implements OnInit {
         });
       }
     });
-
-   
-    
   }
 
 }

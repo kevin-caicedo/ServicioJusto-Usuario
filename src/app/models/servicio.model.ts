@@ -12,4 +12,8 @@ export class ServicioModel {
     }
 
     idPeticion: string;
+
+    nombreAfiliado: string;
+    apellidoAfiliado: string;
+    
 }

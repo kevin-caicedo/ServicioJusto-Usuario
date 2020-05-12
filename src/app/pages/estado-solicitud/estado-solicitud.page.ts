@@ -23,7 +23,9 @@ export class EstadoSolicitudPage implements OnInit {
   afiliadoArray: AfiliadoModel[] = [];
   afiliado: AfiliadoModel = new AfiliadoModel();
   servicio: ServicioModel = new ServicioModel();
+  usuario: UsuarioModel[] = []
   pqrsEnvio: PqrsModel = new PqrsModel();
+  direccion: string;
   hora = 120;
 
   constructor( private activatedRoute: ActivatedRoute, private router: Router,
@@ -70,6 +72,16 @@ export class EstadoSolicitudPage implements OnInit {
       });
 
     });
+
+    this._auth.getTodosUsuario().subscribe(resp=>{
+      this.usuario = resp
+
+      for( let item of this.usuario ){
+        if( item.typeId == localStorage.getItem('localId')){
+          this.direccion = item.direccion;
+        }
+      }
+    })
   }
 
   doRefresh(event) {
