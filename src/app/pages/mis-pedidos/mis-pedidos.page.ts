@@ -6,6 +6,8 @@ import { ServicioModel } from '../../models/servicio.model';
 import { AlertController } from '@ionic/angular';
 import { PqrsModel } from '../../models/pqrs.model';
 import { PqrsService } from '../../services/pqrs.service';
+import { AuthService } from '../../services/auth.service';
+import { UsuarioModel } from '../../models/Usuario.model';
 
 @Component({
   selector: 'app-mis-pedidos',
@@ -16,6 +18,7 @@ export class MisPedidosPage implements OnInit {
 
   peticionArray: PeticionModel[] = [];
   servicioArray: ServicioModel[] = [];
+  usuarioArray: UsuarioModel[] = [];
   nombreAfiliado: string;
   apellidoAfiliado: string;
   pqrsEnvio: PqrsModel = new PqrsModel();
@@ -23,7 +26,8 @@ export class MisPedidosPage implements OnInit {
   constructor(  private _peticion: PeticionesService,
                 private _servicio: ServiciosService,
                 public alertController: AlertController,
-                private _pqrs: PqrsService ) { }
+                private _pqrs: PqrsService,
+                private _auth: AuthService ) { }
 
   ngOnInit() {
 
@@ -53,6 +57,8 @@ export class MisPedidosPage implements OnInit {
 
   }
 
+  numero: string;
+
   async mefue( servicio: ServicioModel ) {
     const alert = await this.alertController.create({
       header: 'Escribe tu mensaje!',
@@ -71,10 +77,22 @@ export class MisPedidosPage implements OnInit {
         }, {
           text: 'Ok',
           handler: ( blah ) => {
+
+            this._auth.getTodosUsuario().subscribe(resp=>{
+              this.usuarioArray = resp;
+
+              for( let item of this.usuarioArray ){
+                if( this._auth.leerLocalId() == item.typeId){
+                  this.numero = item.celular;
+                }
+              }
+
             this.pqrsEnvio.idPeticion = servicio.idPeticion;
             this.pqrsEnvio.mensaje = blah.mensaje;
             this.pqrsEnvio.quien = 'usuario';
+            this.pqrsEnvio.numero = this.numero
             this._pqrs.crearPqrs( this.pqrsEnvio ).subscribe();
+            });
           }
         }
       ]

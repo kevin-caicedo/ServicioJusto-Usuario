@@ -81,7 +81,6 @@ export class ServicioEspecificoPage implements OnInit {
         
         this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
           this.peticion = resp;
-          console.log(this.peticion.id);
           this.router.navigate(['estado-solicitud', this.peticion.id]);
         });
       }

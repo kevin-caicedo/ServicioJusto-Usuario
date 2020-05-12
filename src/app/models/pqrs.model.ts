@@ -7,4 +7,5 @@ export class PqrsModel{
     mensaje: string;
     idPeticion: string;
     quien: string;
+    numero: string;
 }

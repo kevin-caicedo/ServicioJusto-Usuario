@@ -96,9 +96,13 @@
         </ion-text>
       </ion-label>
       <ion-label>
-        <ion-text>
+        <ion-text *ngIf="servicio.precioMinuto <= 1000">
           <p>Valor aproximado</p>
-          <p>${{ servicio.precioMinuto * hora }}</p>
+          <p>${{ servicio.precioMinuto * hora | number}}</p>
+        </ion-text>
+        <ion-text *ngIf="servicio.precioMinuto > 1000">
+          <p>Valor a pagar</p>
+          <p>${{ servicio.precioMinuto | number }}</p>
         </ion-text>
       </ion-label>
     </ion-item>

@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'mis-pedidos',
-    loadChildren: () => import('./pages/mis-pedidos/mis-pedidos.module').then( m => m.MisPedidosPageModule)
+    loadChildren: () => import('./pages/mis-pedidos/mis-pedidos.module').then( m => m.MisPedidosPageModule), canActivate: [AuthGuard]
   }
 ];
 

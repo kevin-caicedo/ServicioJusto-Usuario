@@ -86,12 +86,7 @@ export class EnviarPqrsPage implements OnInit {
           title: 'Error al autenticar',
           text: err.error.error.message
         });
-      });
-
-    console.log(form);
-    console.log(this.pqrs.tipo + "  " + this.pqrs.mensaje);
-    console.log(this.pqrs.nombre + "  " + this.pqrs.apellido);
-
+      });  
   }
 
 

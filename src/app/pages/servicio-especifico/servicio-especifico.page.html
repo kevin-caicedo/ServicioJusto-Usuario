@@ -20,11 +20,11 @@
 
   <ion-item>
   <ion-label> Método de pago </ion-label>
-  <ion-label> Efectivo </ion-label>
+  <ion-label> Efectivo o tarjeta </ion-label>
   <ion-icon name="cash-outline"></ion-icon>  
   </ion-item>
 
-  <ion-item>
+  <ion-item *ngIf="servicio.precioMinuto <= 1000">
     <ion-label class="ion-text-wrap"> 
       Tarifa        &nbsp;&nbsp;&nbsp;&nbsp; 
       Hora: ${{servicio.precioMinuto*60}}   &nbsp;&nbsp;&nbsp;&nbsp; 
@@ -32,6 +32,14 @@
     </ion-label>
     
   </ion-item>
+
+  <ion-item *ngIf="servicio.precioMinuto > 1000">
+    <ion-label class="ion-text-wrap"> 
+      Tarifa        &nbsp;&nbsp;&nbsp;&nbsp; 
+      Precio/Unidad: ${{servicio.precioMinuto | number}}
+    </ion-label>   
+  </ion-item>
+  
   
   <ion-button color="primary" 
               class="ion-padding"
