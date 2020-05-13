@@ -66,6 +66,7 @@ export class ServicioEspecificoPage implements OnInit {
         if( this.auth.leerLocalId() == item.typeId ){
           this.peticion.typeIdUsuario = item.typeId;
           this.direccion = item.direccion;
+          this.peticion.ubicacion = item.direccion;
         }
       }
     });
@@ -85,7 +86,6 @@ export class ServicioEspecificoPage implements OnInit {
     }).then( resp=>{
 
       if( resp.value ){
-        
         this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
           this.peticion = resp;
           this.router.navigate(['estado-solicitud', this.peticion.id]);

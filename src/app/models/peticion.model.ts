@@ -9,5 +9,6 @@ export class PeticionModel{
     idServicio: string;
     typeIdAfiliado: string;
     typeIdUsuario: string;
+    ubicacion: string;
 
 }

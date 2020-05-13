@@ -26,7 +26,8 @@ export class PeticionesService {
       estado: 'solicitado',
       idServicio: peticion.idServicio,
       typeIdAfiliado: 'Buscando',
-      typeIdUsuario: peticion.typeIdUsuario
+      typeIdUsuario: peticion.typeIdUsuario,
+      ubicacion: peticion.ubicacion
     }
 
     return this.http.post(`${ this.urlDatabase }/Peticiones.json`, peticionData)
