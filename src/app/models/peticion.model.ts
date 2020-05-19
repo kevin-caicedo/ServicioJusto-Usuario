@@ -10,5 +10,6 @@ export class PeticionModel{
     typeIdAfiliado: string;
     typeIdUsuario: string;
     ubicacion: string;
+    pago: string;
 
 }

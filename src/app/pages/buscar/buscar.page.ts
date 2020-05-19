@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServicioModel } from '../../models/servicio.model';
 import { ActivatedRoute } from '@angular/router';
 import { ServiciosService } from '../../services/servicios.service';
+import { timeInterval } from 'rxjs/operators';
 
 
 @Component({
@@ -21,7 +22,9 @@ export class BuscarPage implements OnInit {
 
     this.router.params.subscribe( params => {
       this.termino = params['termino'];
+
       this.servicios = this.serviciosService.buscando( params['termino']);
+      
     });
   }
 

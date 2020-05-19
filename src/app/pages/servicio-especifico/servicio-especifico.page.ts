@@ -20,6 +20,7 @@ export class ServicioEspecificoPage implements OnInit {
   peticion: PeticionModel = new PeticionModel();
   usuarioArray: UsuarioModel[] = [];
   direccion: string;
+  pago: string;
 
   constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService, 
               private router: Router,
@@ -75,6 +76,15 @@ export class ServicioEspecificoPage implements OnInit {
 
   confirmacion(){
 
+    if(!this.pago){
+      Swal.fire(
+        'Seleccionar método de pago!',
+        'Efectivo o tarjeta',
+        'error'
+      )
+      return;
+    }
+
     this.peticion.codigo = Math.floor(Math.random()*1000000);
 
     Swal.fire({
@@ -85,6 +95,7 @@ export class ServicioEspecificoPage implements OnInit {
       showCancelButton: true
     }).then( resp=>{
 
+      this.peticion.pago = this.pago
       if( resp.value ){
         this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
           this.peticion = resp;
@@ -93,5 +104,4 @@ export class ServicioEspecificoPage implements OnInit {
       }
     });
   }
-
 }

@@ -12,17 +12,21 @@
 
   <img [src]="servicio.imagen">
   
+  
   <ion-item>
-    <ion-icon name="location-outline" slot="start"></ion-icon>
+    <ion-icon name="location-outline"></ion-icon>  
     <ion-label>Dirección: </ion-label>
     <ion-input disabled> {{ direccion }} </ion-input>
   </ion-item>
 
   <ion-item>
-  <ion-label> Método de pago </ion-label>
-  <ion-label> Efectivo o tarjeta </ion-label>
-  <ion-icon name="cash-outline"></ion-icon>  
+    <ion-label>Método de pago</ion-label>
+    <ion-select placeholder="Select One" [(ngModel)]="pago">
+      <ion-select-option>Efectivo</ion-select-option>
+      <ion-select-option>Tarjeta</ion-select-option>
+    </ion-select>
   </ion-item>
+  
 
   <ion-item *ngIf="servicio.precioMinuto <= 1000">
     <ion-label class="ion-text-wrap"> 
@@ -39,6 +43,7 @@
       Precio/Unidad: ${{servicio.precioMinuto | number}}
     </ion-label>   
   </ion-item>
+
   
   
   <ion-button color="primary" 

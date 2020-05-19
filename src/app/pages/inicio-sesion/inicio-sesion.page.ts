@@ -56,11 +56,23 @@ export class InicioSesionPage implements OnInit {
 
           this.router.navigateByUrl(`/servicio-especifico/${ localStorage.getItem('idServicio') }`);
           localStorage.removeItem('idServicio');
-          setTimeout(() => location.reload(), 1000);
+          setTimeout(() => location.reload(), 4000);
+
+          Swal.fire(
+            'Bienvenido!',
+            'Ok para continuar!',
+            'success'
+          );
           return;
 
         }
-        setTimeout(() => location.reload(), 1000);
+        setTimeout(() => location.reload(), 2500);
+
+        Swal.fire(
+          'Bienvenido!',
+          'Ok para continuar!',
+          'success'
+        );
         
         this.router.navigateByUrl('/servicios');
 

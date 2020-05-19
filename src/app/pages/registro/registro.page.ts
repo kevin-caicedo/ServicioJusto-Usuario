@@ -41,11 +41,19 @@ export class RegistroPage implements OnInit {
 
           this.router.navigateByUrl(`/servicio-especifico/${ localStorage.getItem('idServicio') }`);
           localStorage.removeItem('idServicio');
-          setTimeout(() => location.reload(), 1000);
+          setTimeout(() => location.reload(), 2500);
           return;
         }
         this.router.navigateByUrl('/servicios');
         Swal.close();
+
+        Swal.fire(
+          'Bienvenido!',
+          'Ok para continuar!',
+          'success'
+        );
+
+        setTimeout(() => location.reload(), 2500);
 
         }, (err)=>{
         console.log(err);

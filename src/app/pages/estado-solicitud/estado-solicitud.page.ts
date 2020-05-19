@@ -118,8 +118,7 @@ export class EstadoSolicitudPage implements OnInit {
           name: 'radio1',
           type: 'radio',
           label: 'Pésimo',
-          value: 1,
-          checked: true
+          value: 1
         },
         {
           name: 'radio2',
@@ -143,7 +142,8 @@ export class EstadoSolicitudPage implements OnInit {
           name: 'radio5',
           type: 'radio',
           label: 'Excelente',
-          value: 5
+          value: 5,
+          checked: true
         }
       ],
       buttons: [

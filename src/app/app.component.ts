@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
           icon: 'person'
         },
         {
-          title: 'Cerrar cuenta',
+          title: 'Eliminar cuenta',
           url: '/cerrar-cuenta',
           icon: 'trash'
         }

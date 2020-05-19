@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start" (click)="cancelar()">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>      
+      
     <ion-buttons slot="primary">
       <ion-button>
         <ion-icon slot="icon-only" name="help-circle"></ion-icon>
@@ -65,8 +63,6 @@
   
     </div>
 
-    
-
     <ion-item>
       <ion-icon name="location-outline"></ion-icon>
       <ion-label>
@@ -124,7 +120,7 @@
     </ion-item>
 
     <ion-item lines="none" *ngIf="peticion.estado == 'aceptado'">
-      <ion-button shape="round"  fill="outline" color="primary" href="https://wa.me/{{ afiliado.Telefono }}">Comunicate</ion-button>
+      <ion-button shape="round"  fill="outline" color="primary" href="https://wa.me/57{{ afiliado.Telefono }}">Comunicate</ion-button>
       <ion-button shape="round"  fill="outline" color="primary" (click)="meva()">Como vas con el afiliado</ion-button>
     </ion-item>
 

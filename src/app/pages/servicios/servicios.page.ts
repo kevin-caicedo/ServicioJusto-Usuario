@@ -23,7 +23,7 @@ export class ServiciosPage implements OnInit {
   buscarServicio( termino: string ){
 
     this.router.navigate(['/buscar', termino]);
-
+      
   }
 
 }

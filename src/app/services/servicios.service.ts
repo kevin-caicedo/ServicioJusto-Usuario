@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { ServicioModel } from '../models/servicio.model';
 
 @Injectable({
@@ -45,10 +45,9 @@ export class ServiciosService {
   servicios: ServicioModel[] = [];
 
   buscando( termino: string ){
-
+  
     this.getServicios().subscribe( resp=> this.servicios = resp );
 
-    
     let servicioArr: ServicioModel[] = [];
     termino = termino.toLowerCase();
 
@@ -60,6 +59,7 @@ export class ServiciosService {
         servicioArr.push( servicio )
       }
     }
+
     return servicioArr;
   }
 
