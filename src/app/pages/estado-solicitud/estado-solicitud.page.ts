@@ -37,6 +37,7 @@ export class EstadoSolicitudPage implements OnInit {
   ngOnInit() {
 
     const id = this.activatedRoute.snapshot.paramMap.get('id');
+    localStorage.setItem('idPeticion', id);
     this.peticion.id = id;
 
     this._peticiones.getPeticion( this.peticion.id ).subscribe( (resp: PeticionModel)=>{
@@ -60,6 +61,7 @@ export class EstadoSolicitudPage implements OnInit {
             this.afiliado.typeIdAfiliado = item.typeIdAfiliado;
             this.afiliado.Telefono = item.Telefono;
             this.afiliado.typeIdUsuario = item.typeIdUsuario;
+            this.pqrsEnvio.nombreAfiliado = item.Nombre + " " + item.Apellido;
 
           }
         }
@@ -79,6 +81,7 @@ export class EstadoSolicitudPage implements OnInit {
       for( let item of this.usuario ){
         if( item.typeId == localStorage.getItem('localId')){
           this.direccion = item.direccion;
+          this.pqrsEnvio.nombreUsuario = item.nombre + " " + item.apellido
         }
       }
     })
@@ -92,19 +95,47 @@ export class EstadoSolicitudPage implements OnInit {
     }, 2000);
   }
 
+  terminarServicio(){
+    this._peticiones.getPeticion( this.peticion.id ).subscribe(resp=>{
+
+      if( resp['estado'] === "finalizado" ){
+        localStorage.removeItem('idPeticion');
+      };
+      location.reload();
+    })
+  }
+
   cancelar(){
     Swal.fire({
       title: '¿Está seguro?',
-      text: `Está seguro que desea cancelar el servicio`,
+      text: `¿Está seguro que desea cancelar el servicio?`,
       icon: "question",
       showConfirmButton: true,
       showCancelButton: true
-    }).then( resp=>{
+    }).then( aceptar=>{
 
-      if( resp.value ){
-        this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
-        this.router.navigate(['servicios']);
-      }
+      this._peticiones.getPeticion( this.peticion.id ).subscribe(resp=>{
+
+        if( aceptar.value ){
+
+          if( resp['estado'] === 'solicitado'){
+            this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
+            localStorage.removeItem('idPeticion');
+            this.router.navigate(['servicios']);
+          }else{
+            Swal.fire(
+              `Tu servicio está en ejecución`,
+              'No se puede cancelar el servicio',
+              'error'
+            );
+            this.router.navigate(['estado-solicitud', localStorage.getItem('idPeticion')]);
+          }
+        }else{
+          this.router.navigate(['estado-solicitud', localStorage.getItem('idPeticion')]);
+        }
+        
+      });
+     
 
     });
 
@@ -192,7 +223,7 @@ export class EstadoSolicitudPage implements OnInit {
 
   salir(){
     this.router.navigate(['servicios']);
-
+    localStorage.removeItem('idPeticion');
     this._peticiones.getPeticion( this.peticion.id ).subscribe((resp:PeticionModel)=>{
       this.peticionCalificacion = resp;
 
@@ -202,6 +233,7 @@ export class EstadoSolicitudPage implements OnInit {
         const typeUsuario: string = resp['typeIdUsuario'];
 
         this._auth.getTodosUsuario().subscribe((resp)=>{
+          
           this.usuarioArray = resp;
 
          for( let item of this.usuarioArray){
@@ -229,12 +261,13 @@ export class EstadoSolicitudPage implements OnInit {
 
              }
              this._auth.actualizarUsuario( this.Usuario ).subscribe();
+             
             }
           }
         });
-      }
-      
+      } 
     });
+    setTimeout(() => location.reload(), 1000);
   }
 
   /**

@@ -82,11 +82,6 @@ export class AppComponent implements OnInit {
           title: 'Iniciar sesión',
           url: '/inicio-sesion',
           icon: 'people'
-        },
-        {
-          title: 'Servicios',
-          url: '/servicios',
-          icon: 'headset'
         }
       ];
 

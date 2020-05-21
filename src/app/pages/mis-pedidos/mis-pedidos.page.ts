@@ -48,6 +48,7 @@ export class MisPedidosPage implements OnInit {
                 if( item.typeIdAfiliado == obj.typeIdAfiliado ){
                   serv.nombreAfiliado = obj.Nombre;
                   serv.apellidoAfiliado = obj.Apellido
+                  this.pqrsEnvio.nombreAfiliado = obj.Nombre + " " + obj.Apellido;
                   this.servicioArray.push(serv);
                 }
               }
@@ -85,6 +86,7 @@ export class MisPedidosPage implements OnInit {
               for( let item of this.usuarioArray ){
                 if( this._auth.leerLocalId() == item.typeId){
                   this.numero = item.celular;
+                  this.pqrsEnvio.nombreUsuario = item.nombre + " " + item.apellido;
                 }
               }
 
@@ -98,11 +100,6 @@ export class MisPedidosPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
-
-
-
-
 }

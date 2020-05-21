@@ -76,32 +76,44 @@ export class ServicioEspecificoPage implements OnInit {
 
   confirmacion(){
 
-    if(!this.pago){
-      Swal.fire(
-        'Seleccionar método de pago!',
-        'Efectivo o tarjeta',
-        'error'
-      )
-      return;
+    if( !localStorage.getItem('idPeticion') ){
+
+        if(!this.pago){
+          Swal.fire(
+            'Seleccionar método de pago!',
+            'Efectivo o tarjeta',
+            'error'
+          )
+          return;
+        }
+    
+        this.peticion.pago = this.pago
+        this.peticion.codigo = Math.floor(Math.random()*1000000);
+    
+        Swal.fire({
+          title: '¿Está seguro?',
+          text: `¿Está seguro que desea comenzar el servicio?`,
+          icon: "question",
+          showConfirmButton: true,
+          showCancelButton: true
+        }).then( resp=>{
+    
+          this.peticion.pago = this.pago
+          if( resp.value ){
+            this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
+              this.peticion = resp;
+              this.router.navigate(['estado-solicitud', this.peticion.id]);
+            });
+          }
+        });
+      }else{
+        Swal.fire(
+          'Atención!',
+          'Ya tienes un servicio en desarrollo!',
+          'warning'
+        );
+      }
     }
 
-    this.peticion.codigo = Math.floor(Math.random()*1000000);
-
-    Swal.fire({
-      title: '¿Está seguro?',
-      text: `Está seguro que desea comenzar el servicio tu dirección es tu ubicación`,
-      icon: "question",
-      showConfirmButton: true,
-      showCancelButton: true
-    }).then( resp=>{
-
-      this.peticion.pago = this.pago
-      if( resp.value ){
-        this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
-          this.peticion = resp;
-          this.router.navigate(['estado-solicitud', this.peticion.id]);
-        });
-      }
-    });
-  }
+    
 }

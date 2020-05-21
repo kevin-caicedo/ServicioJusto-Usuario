@@ -36,6 +36,8 @@ export class RegistroPage implements OnInit {
 
     this.auth.nuevoUsuario( this.usuario )
       .subscribe( resp=>{
+        
+        this.auth.verificarCorreo().subscribe( );
 
         if( localStorage.getItem('idServicio') ){
 

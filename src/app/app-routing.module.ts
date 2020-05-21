@@ -27,11 +27,11 @@ const routes: Routes = [
   },
   {
     path: 'servicios',
-    loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule)
+    loadChildren: () => import('./pages/servicios/servicios.module').then( m => m.ServiciosPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'servicio-especifico/:id',
-    loadChildren: () => import('./pages/servicio-especifico/servicio-especifico.module').then( m => m.ServicioEspecificoPageModule)
+    loadChildren: () => import('./pages/servicio-especifico/servicio-especifico.module').then( m => m.ServicioEspecificoPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'estado-solicitud/:id',
@@ -43,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: 'buscar/:termino',
-    loadChildren: () => import('./pages/buscar/buscar.module').then( m => m.BuscarPageModule)
+    loadChildren: () => import('./pages/buscar/buscar.module').then( m => m.BuscarPageModule), canActivate: [AuthGuard]
   },
   {
     path: 'cerrar-cuenta',

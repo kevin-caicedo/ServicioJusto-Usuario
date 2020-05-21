@@ -1,6 +1,9 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/servicios" (click)="terminarServicio()"></ion-back-button>
       
+    </ion-buttons>
     <ion-buttons slot="primary">
       <ion-button>
         <ion-icon slot="icon-only" name="help-circle"></ion-icon>
@@ -78,7 +81,7 @@
       <ion-label>
         <ion-text>
           <p>Método de pago</p>
-          <p>efectivo o tarjeta</p>
+          <p>{{ peticion.pago }}</p>
         </ion-text>
       </ion-label>
       <ion-label>
@@ -125,8 +128,8 @@
     </ion-item>
 
     <ion-button  shape="round"  fill="outline" color="primary"  *ngIf="peticion.estado == 'ejecucion'" (click)="meva()">Como vas con el afiliado</ion-button>
-    <ion-button  expand="full" color="danger" class="ion-padding" (click)="cancelar()" *ngIf="peticion.estado=='solicitado' || peticion.estado=='aceptado'">Cancelar Servicio</ion-button>
-    <ion-button  expand="full" color="primary" class="ion-padding"  id="ocultarPago" (click)="pagoTarjeta()" *ngIf="peticion.estado=='finalizado'">Pago con tarjeta</ion-button>
+    <ion-button  expand="full" color="danger" class="ion-padding" (click)="cancelar()" *ngIf="peticion.estado=='solicitado'">Cancelar Servicio</ion-button>
+    <ion-button  expand="full" color="primary" class="ion-padding"  id="ocultarPago" (click)="pagoTarjeta()" *ngIf="peticion.estado=='finalizado' && peticion.pago == 'Tarjeta'">Pago con tarjeta</ion-button>
     <ion-button  expand="full" color="success" class="ion-padding"  id="ocultar" (click)="presentAlertRadio()" *ngIf="peticion.estado=='finalizado'">Calificar afiliado</ion-button>
     <ion-button  expand="full" color="danger" class="ion-padding" *ngIf="peticion.estado=='finalizado'" (click)="salir()">Salir</ion-button>
 

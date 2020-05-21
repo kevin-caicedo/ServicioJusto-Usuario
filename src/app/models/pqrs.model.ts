@@ -8,4 +8,6 @@ export class PqrsModel{
     idPeticion: string;
     quien: string;
     numero: string;
+    nombreAfiliado: string;
+    nombreUsuario: string;
 }
