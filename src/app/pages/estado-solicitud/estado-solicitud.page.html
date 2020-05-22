@@ -2,12 +2,6 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/servicios" (click)="terminarServicio()"></ion-back-button>
-      
-    </ion-buttons>
-    <ion-buttons slot="primary">
-      <ion-button>
-        <ion-icon slot="icon-only" name="help-circle"></ion-icon>
-      </ion-button>
     </ion-buttons>
     <ion-title> Estado de tu solicitud </ion-title>
    
@@ -21,7 +15,7 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
       <ion-refresher-content
         pullingIcon="chevron-down-circle-outline"
-        pullingText="Pull to refresh"
+        pullingText="Baje para refrescar"
         refreshingSpinner="circles"
         refreshingText="Recargando...">
       </ion-refresher-content>

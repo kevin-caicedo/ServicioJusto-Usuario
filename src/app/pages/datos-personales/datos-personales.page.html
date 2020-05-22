@@ -17,25 +17,25 @@
       <ion-item>
         <ion-icon name="person-outline" slot="start"></ion-icon>
         <ion-label position="floating">Nombre</ion-label>
-        <ion-input  name="nombre" [(ngModel)]="usuario.nombre"></ion-input>
+        <ion-input  name="nombre" [(ngModel)]="usuario.nombre" minlength="2" required></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-icon name="person-outline" slot="start"></ion-icon>
         <ion-label position="floating">Apellido</ion-label>
-        <ion-input name="apellido" [(ngModel)]="usuario.apellido"></ion-input>
+        <ion-input name="apellido" [(ngModel)]="usuario.apellido" minlength="2" required></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-icon name="call-outline" slot="start"></ion-icon>
         <ion-label position="floating">Celular</ion-label>
-        <ion-input  name="celular" [(ngModel)]="usuario.celular" type="number"></ion-input>
+        <ion-input  name="celular" [(ngModel)]="usuario.celular" type="number" minlength="10" required></ion-input>
       </ion-item>
     
       <ion-item>
         <ion-icon name="compass-outline" slot="start"></ion-icon>
         <ion-label position="floating">Direccion</ion-label>
-        <ion-input  name="direccion" [(ngModel)]="usuario.direccion" ></ion-input>
+        <ion-input  name="direccion" [(ngModel)]="usuario.direccion" required></ion-input>
       </ion-item>
     
       <ion-item>

@@ -48,9 +48,13 @@ export class DatosPersonalesPage implements OnInit {
   }
 
   actualizar( form: NgForm ){
-    console.log(form);
-
+    
     if( form.invalid ){
+      Swal.fire(
+        'Datos incompletos!',
+        'Por favor ingrese los datos!',
+        'error'
+      );
       return;
     }
 

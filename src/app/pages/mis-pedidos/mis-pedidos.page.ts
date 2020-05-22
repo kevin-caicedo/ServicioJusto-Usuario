@@ -37,23 +37,28 @@ export class MisPedidosPage implements OnInit {
       this.peticionArray = resp;
 
       for( let item of this.peticionArray ){
-        if( item.typeIdUsuario == localStorage.getItem('localId')){
 
-          this._servicio.getServicio( item.idServicio ).subscribe( (serv:ServicioModel)=>{
-            serv.idPeticion = item.id;
+        if( item.estado === 'finalizado' ){
 
-            this._peticion.getAfiliados().subscribe( resp=>{
-              this.afiliadoArray = resp;
-              for( let obj of this.afiliadoArray ){
-                if( item.typeIdAfiliado == obj.typeIdAfiliado ){
-                  serv.nombreAfiliado = obj.Nombre;
-                  serv.apellidoAfiliado = obj.Apellido
-                  this.pqrsEnvio.nombreAfiliado = obj.Nombre + " " + obj.Apellido;
-                  this.servicioArray.push(serv);
+          if( item.typeIdUsuario == localStorage.getItem('localId')){
+
+            this._servicio.getServicio( item.idServicio ).subscribe( (serv:ServicioModel)=>{
+              serv.idPeticion = item.id;
+  
+              this._peticion.getAfiliados().subscribe( resp=>{
+                this.afiliadoArray = resp;
+                for( let obj of this.afiliadoArray ){
+                  if( item.typeIdAfiliado == obj.typeIdAfiliado ){
+                    serv.nombreAfiliado = obj.Nombre;
+                    serv.apellidoAfiliado = obj.Apellido
+                    this.pqrsEnvio.nombreAfiliado = obj.Nombre + " " + obj.Apellido;
+                    this.servicioArray.push(serv);
+                  }
                 }
-              }
-            })  
-          });
+              })  
+            });
+          }
+
         }
       }
     });

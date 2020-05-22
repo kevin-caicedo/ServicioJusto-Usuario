@@ -5,7 +5,7 @@ export class PeticionModel{
     calificacionUsuario: number;
     codigo: number;
     direccion: string;
-    estado: 'solicitado';
+    estado: string;
     idServicio: string;
     typeIdAfiliado: string;
     typeIdUsuario: string;

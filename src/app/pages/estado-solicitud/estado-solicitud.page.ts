@@ -111,7 +111,9 @@ export class EstadoSolicitudPage implements OnInit {
       text: `¿Está seguro que desea cancelar el servicio?`,
       icon: "question",
       showConfirmButton: true,
-      showCancelButton: true
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar'
     }).then( aceptar=>{
 
       this._peticiones.getPeticion( this.peticion.id ).subscribe(resp=>{

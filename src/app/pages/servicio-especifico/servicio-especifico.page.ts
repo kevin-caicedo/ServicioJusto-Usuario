@@ -95,7 +95,9 @@ export class ServicioEspecificoPage implements OnInit {
           text: `¿Está seguro que desea comenzar el servicio?`,
           icon: "question",
           showConfirmButton: true,
-          showCancelButton: true
+          showCancelButton: true,
+          confirmButtonText: 'Aceptar',
+          cancelButtonText: 'Cancelar'
         }).then( resp=>{
     
           this.peticion.pago = this.pago
