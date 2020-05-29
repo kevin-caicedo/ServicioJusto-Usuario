@@ -21,6 +21,7 @@ export class ServicioEspecificoPage implements OnInit {
   usuarioArray: UsuarioModel[] = [];
   direccion: string;
   pago: string;
+  entra: boolean = true;
 
   constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService, 
               private router: Router,
@@ -76,7 +77,7 @@ export class ServicioEspecificoPage implements OnInit {
 
   confirmacion(){
 
-    if( !localStorage.getItem('idPeticion') ){
+    if( !localStorage.getItem('idPeticion') || !localStorage.getItem('idPeticion2') || !localStorage.getItem('idPeticion3') ){
 
         if(!this.pago){
           Swal.fire(
@@ -92,7 +93,7 @@ export class ServicioEspecificoPage implements OnInit {
     
         Swal.fire({
           title: '¿Está seguro?',
-          text: `¿Está seguro que desea comenzar el servicio?`,
+          text: `¿Está seguro que desea solicitar el servicio?`,
           icon: "question",
           showConfirmButton: true,
           showCancelButton: true,
@@ -101,21 +102,84 @@ export class ServicioEspecificoPage implements OnInit {
         }).then( resp=>{
     
           this.peticion.pago = this.pago
-          if( resp.value ){
-            this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
-              this.peticion = resp;
-              this.router.navigate(['estado-solicitud', this.peticion.id]);
-            });
+
+          if( resp.value ){            
+            if(localStorage.getItem('idPeticion')){
+
+              this._peticion.getPeticion( localStorage.getItem('idPeticion') ).subscribe((resp: PeticionModel)=>{
+                let peticionTemporal: PeticionModel = resp;
+                if(peticionTemporal.idServicio === this.peticion.idServicio){
+                  this.validarServicio(false);
+                }
+              })
+
+            }
+            if(localStorage.getItem('idPeticion2')){
+
+              this._peticion.getPeticion( localStorage.getItem('idPeticion2') ).subscribe((resp: PeticionModel)=>{
+                let peticionTemporal: PeticionModel = resp;
+                if(peticionTemporal.idServicio === this.peticion.idServicio){
+                  this.validarServicio(false);   
+                }
+              })
+
+            }
+            if(localStorage.getItem('idPeticion3')){
+
+              this._peticion.getPeticion( localStorage.getItem('idPeticion3') ).subscribe((resp: PeticionModel)=>{
+                let peticionTemporal: PeticionModel = resp;
+                if(peticionTemporal.idServicio === this.peticion.idServicio){
+                  this.validarServicio(false);
+                }
+              })
+            }
+
+            setTimeout(()=>{              
+            this.validarServicio(true);
+            }, 1500);
+            
           }
+            
+            
         });
       }else{
         Swal.fire(
           'Atención!',
-          'Ya tienes un servicio en desarrollo!',
+          'No puede solicitar mas servicios!',
           'warning'
         );
       }
     }
 
-    
+
+    validarServicio( si: boolean ){
+
+      if(this.entra){
+        
+        if( si ){
+          
+          this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
+            this.peticion = resp;
+            if(!localStorage.getItem('idPeticion')){
+              localStorage.setItem('idPeticion', this.peticion.id);
+            }else if( localStorage.getItem('idPeticion') && !localStorage.getItem('idPeticion2')){
+              localStorage.setItem('idPeticion2', this.peticion.id);
+            }else if( localStorage.getItem('idPeticion2' ) && !localStorage.getItem('idPeticion3') ){
+              localStorage.setItem('idPeticion3', this.peticion.id);
+            }
+            this.router.navigate(['estado-solicitud', this.peticion.id]);
+          });
+  
+          this.entra = false;
+  
+        }else{
+          Swal.fire(
+            'Atención!',
+            'No puede solicitar dos veces el mismo servicio!',
+            'warning'
+          );
+          this.entra = false;
+        }
+      }    
+    }
 }

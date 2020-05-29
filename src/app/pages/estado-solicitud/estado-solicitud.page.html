@@ -23,6 +23,10 @@
 
     <div [ngSwitch]="peticion.estado">
 
+      <ion-item lines=none>
+        <h1> {{ servicio.nombreServicio }}</h1>
+      </ion-item>
+
       <ion-item>
         <ion-icon name="checkmark-circle-outline" *ngSwitchCase="'solicitado'"></ion-icon>
         <ion-label>
@@ -61,7 +65,7 @@
     </div>
 
     <ion-item>
-      <ion-icon name="location-outline"></ion-icon>
+      <ion-icon name="location-outline" slot="start"></ion-icon>
       <ion-label>
         <ion-text>
           <p>Direccion</p>
@@ -71,7 +75,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-icon name="cash-outline"></ion-icon>
+      <ion-icon name="cash-outline" slot="start"></ion-icon>
       <ion-label>
         <ion-text>
           <p>Método de pago</p>
@@ -80,8 +84,8 @@
       </ion-label>
       <ion-label>
         <ion-text *ngIf="servicio.precioMinuto <= 1000">
-          <p>Valor aproximado</p>
-          <p>${{ servicio.precioMinuto * hora | number}}</p>
+          <p *ngIf="peticion.precio">Valor a pagar</p>
+          <p *ngIf="peticion.precio">{{ peticion.precio | number }}</p>
         </ion-text>
         <ion-text *ngIf="servicio.precioMinuto > 1000">
           <p>Valor a pagar</p>
@@ -90,7 +94,12 @@
       </ion-label>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="peticion.estado=='aceptado' || peticion.estado=='ejecucion' || peticion.estado=='finalizado'">
+
+      <ion-avatar slot="start">
+        <img [src]="afiliado.fotoPerfil">
+      </ion-avatar>
+
       <ion-label>
         <ion-text>
           <p>Profesional</p>
@@ -98,15 +107,15 @@
         </ion-text>
       </ion-label>
 
-      <ion-icon name="star"></ion-icon>
+      <div slot="end">
+        <ion-icon name="star"></ion-icon>
       <ion-label>{{ afiliado.Calificacion | number }}</ion-label>
-
-      <ion-icon name="happy-outline"></ion-icon>
-
+      </div>
+          
     </ion-item>
 
     <ion-item *ngIf="peticion.estado=='aceptado'">
-      <ion-icon name="key-outline"></ion-icon>
+      <ion-icon name="key-outline" slot="start"></ion-icon>
       <ion-label>
         {{ peticion.codigo }}
       </ion-label>
@@ -118,10 +127,10 @@
 
     <ion-item lines="none" *ngIf="peticion.estado == 'aceptado'">
       <ion-button shape="round"  fill="outline" color="primary" href="https://wa.me/57{{ afiliado.Telefono }}">Comunicate</ion-button>
-      <ion-button shape="round"  fill="outline" color="primary" (click)="meva()">Como vas con el afiliado</ion-button>
+      <ion-button shape="round"  fill="outline" color="primary" (click)="meva()">¿Cómo vas con el afiliado?</ion-button>
     </ion-item>
 
-    <ion-button  shape="round"  fill="outline" color="primary"  *ngIf="peticion.estado == 'ejecucion'" (click)="meva()">Como vas con el afiliado</ion-button>
+    <ion-button  shape="round"  fill="outline" color="primary"  *ngIf="peticion.estado == 'ejecucion'" (click)="meva()">¿Cómo vas con el afiliado?</ion-button>
     <ion-button  expand="full" color="danger" class="ion-padding" (click)="cancelar()" *ngIf="peticion.estado=='solicitado'">Cancelar Servicio</ion-button>
     <ion-button  expand="full" color="primary" class="ion-padding"  id="ocultarPago" (click)="pagoTarjeta()" *ngIf="peticion.estado=='finalizado' && peticion.pago == 'Tarjeta'">Pago con tarjeta</ion-button>
     <ion-button  expand="full" color="success" class="ion-padding"  id="ocultar" (click)="presentAlertRadio()" *ngIf="peticion.estado=='finalizado'">Calificar afiliado</ion-button>

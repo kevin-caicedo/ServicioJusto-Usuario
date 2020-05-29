@@ -14,15 +14,24 @@ export class ServiciosPage implements OnInit {
 
   servicios: ServicioModel[] = [];
   verifica: boolean;
-  idPeticion: boolean;
+  idPeticion: string = '';
+  idPeticion2: string = '';
+  idPeticion3: string = '';
 
   constructor( private servicioService: ServiciosService, private router:Router, private _auth: AuthService ) { }
 
   ngOnInit() {
 
     if( localStorage.getItem('idPeticion') ){
-      this.idPeticion = true;
+      this.idPeticion = 'peticion';
     }
+    if( localStorage.getItem('idPeticion2') ){
+      this.idPeticion2 = 'peticion2';
+    }
+    if( localStorage.getItem('idPeticion3') ){
+      this.idPeticion3 = 'peticion3';
+    }
+
     this._auth.obtenerDatosFirebase().subscribe(resp=>{
       if(resp['users']['0'].emailVerified){
         this.verifica = false;
@@ -49,8 +58,16 @@ export class ServiciosPage implements OnInit {
       
   }
 
-  regresar(){
-    this.router.navigate(['/estado-solicitud', localStorage.getItem('idPeticion')]);
+  regresar( peticion: string ){
+    console.log(peticion);
+
+    if( peticion === this.idPeticion ){
+      this.router.navigate(['/estado-solicitud', localStorage.getItem('idPeticion')]);
+    }else if(peticion === this.idPeticion2){
+      this.router.navigate(['/estado-solicitud', localStorage.getItem('idPeticion2')]);
+    }else if(peticion === this.idPeticion3){
+      this.router.navigate(['/estado-solicitud', localStorage.getItem('idPeticion3')]);
+    }
   }
 
 }

@@ -37,7 +37,7 @@ export class EstadoSolicitudPage implements OnInit {
   ngOnInit() {
 
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    localStorage.setItem('idPeticion', id);
+
     this.peticion.id = id;
 
     this._peticiones.getPeticion( this.peticion.id ).subscribe( (resp: PeticionModel)=>{
@@ -73,6 +73,15 @@ export class EstadoSolicitudPage implements OnInit {
 
       });
 
+      if(this.peticion.estado === 'finalizado'){
+        if( this.peticion.id ===  localStorage.getItem('idPeticion')){
+          localStorage.removeItem('idPeticion');
+        }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
+          localStorage.removeItem('idPeticion2');
+        }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
+          localStorage.removeItem('idPeticion3');
+        }
+      }
     });
 
     this._auth.getTodosUsuario().subscribe(resp=>{
@@ -122,8 +131,20 @@ export class EstadoSolicitudPage implements OnInit {
 
           if( resp['estado'] === 'solicitado'){
             this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
-            localStorage.removeItem('idPeticion');
+            
             this.router.navigate(['servicios']);
+
+            setTimeout(() => location.reload(), 1000);
+            if( this.peticion.id ===  localStorage.getItem('idPeticion')){
+              localStorage.removeItem('idPeticion');
+              return;
+            }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
+              localStorage.removeItem('idPeticion2');
+              return;
+            }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
+              localStorage.removeItem('idPeticion3');
+              return;
+            }
           }else{
             Swal.fire(
               `Tu servicio está en ejecución`,
@@ -225,7 +246,13 @@ export class EstadoSolicitudPage implements OnInit {
 
   salir(){
     this.router.navigate(['servicios']);
-    localStorage.removeItem('idPeticion');
+    if( this.peticion.id ===  localStorage.getItem('idPeticion')){
+      localStorage.removeItem('idPeticion');
+    }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
+      localStorage.removeItem('idPeticion2');
+    }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
+      localStorage.removeItem('idPeticion3');
+    }
     this._peticiones.getPeticion( this.peticion.id ).subscribe((resp:PeticionModel)=>{
       this.peticionCalificacion = resp;
 
@@ -282,7 +309,7 @@ export class EstadoSolicitudPage implements OnInit {
         {
           name: 'mensaje',
           type: 'textarea',
-          placeholder: 'Escribe el mensaje para el usuario'
+          placeholder: 'Escribe el mensaje para el administrador'
         }
       ],
       buttons: [

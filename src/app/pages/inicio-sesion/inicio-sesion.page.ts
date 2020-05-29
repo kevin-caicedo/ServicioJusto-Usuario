@@ -56,7 +56,7 @@ export class InicioSesionPage implements OnInit {
 
           this.router.navigateByUrl(`/servicio-especifico/${ localStorage.getItem('idServicio') }`);
           localStorage.removeItem('idServicio');
-          setTimeout(() => location.reload(), 4000);
+          setTimeout(() => location.reload(), 2500);
 
           Swal.fire(
             'Bienvenido!',
@@ -77,10 +77,18 @@ export class InicioSesionPage implements OnInit {
         this.router.navigateByUrl('/servicios');
 
       }, (err)=>{
+
+        let respuesta: string;
+        if(err.error.error.message === 'EMAIL_NOT_FOUND'){
+          respuesta = 'Debes registrarte primero'
+        }else if( err.error.error.message === 'INVALID_PASSWORD' ){
+          respuesta = 'Contraseña inválida'
+        }
+
         Swal.fire({
           icon: 'error',
           title: 'Error al autenticar',
-          text: err.error.error.message
+          text: respuesta
         });
       });
 
