@@ -52,15 +52,27 @@ export class CerrarCuentaPage implements OnInit {
 
       if( resp.value ){
 
-        this.auth.eliminarCuentaCorreo( this.usuario ).subscribe( );
+        if( !localStorage.getItem('idPeticion') && !localStorage.getItem('idPeticion2') && !localStorage.getItem('idPeticion3') ){
 
-        this.auth.eliminarCuentaDatos( this.usuario.id ).subscribe();
+          this.auth.eliminarCuentaCorreo( this.usuario ).subscribe( );
 
-        localStorage.removeItem('token');
+          this.auth.eliminarCuentaDatos( this.usuario.id ).subscribe();
+
+          localStorage.removeItem('token');
           localStorage.removeItem('expira');
           localStorage.removeItem('localId');
+          localStorage.removeItem('idUsuario');
 
           setTimeout(() => this.router.navigate(['registro']), 1500);
+        }else{
+          Swal.fire(
+            'Atención!',
+            'No puede eliminar su cuenta hasta que termine el servicio en desarrollo!',
+            'warning'
+          );
+        }
+
+        
 
       }
     });

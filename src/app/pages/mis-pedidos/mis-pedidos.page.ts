@@ -73,7 +73,7 @@ export class MisPedidosPage implements OnInit {
         {
           name: 'mensaje',
           type: 'textarea',
-          placeholder: 'Escribe el mensaje para el usuario'
+          placeholder: 'Escribe el mensaje para el administrador'
         }
       ],
       buttons: [

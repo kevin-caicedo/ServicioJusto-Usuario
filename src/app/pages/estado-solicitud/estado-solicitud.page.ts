@@ -26,6 +26,7 @@ export class EstadoSolicitudPage implements OnInit {
   usuario: UsuarioModel[] = []
   pqrsEnvio: PqrsModel = new PqrsModel();
   direccion: string;
+  calificacionAfiliado: number;
   hora = 120;
 
   constructor( private activatedRoute: ActivatedRoute, private router: Router,
@@ -53,16 +54,21 @@ export class EstadoSolicitudPage implements OnInit {
 
             this.afiliado.id = item.id;
             this.afiliado.Apellido = item.Apellido;
-            this.afiliado.Calificacion = item.Calificacion['valor'];
+            this.afiliado.Calificacion = item.Calificacion;
+            this.afiliado.Cedula = item.Cedula;
+            this.afiliado.Direccion = item.Direccion;
             this.afiliado.FechaNacimiento = item.FechaNacimiento;
+            this.afiliado.Habilidad = item.Habilidad;
             this.afiliado.Nombre = item.Nombre;
             this.afiliado.Telefono = item.Telefono;
+            this.afiliado.estado = item.estado;
+            
             this.afiliado.fotoPerfil = item.fotoPerfil;
             this.afiliado.typeIdAfiliado = item.typeIdAfiliado;
-            this.afiliado.Telefono = item.Telefono;
             this.afiliado.typeIdUsuario = item.typeIdUsuario;
             this.pqrsEnvio.nombreAfiliado = item.Nombre + " " + item.Apellido;
-
+            
+            this.calificacionAfiliado = this.afiliado.Calificacion.valor
           }
         }
       });
@@ -208,29 +214,46 @@ export class EstadoSolicitudPage implements OnInit {
         }, {
           text: 'Ok',
           handler: ( valor ) => {
-            this.peticion.calificacionAfiliado = valor;
-            this._peticiones.calificaAfiliado( this.peticion ).subscribe((resp: PeticionModel)=>{
-              this.peticion.calificacionAfiliado = resp.calificacionAfiliado;
-              const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                onOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              
-              Toast.fire({
-                icon: 'success',
-                title: 'Tu calificacion ha sido guardada'
-              })
-            });
 
-            //Ocultar botón
-            document.getElementById("ocultar").style.display='none';
+            delete this.afiliado.typeIdUsuario;
+
+            let calificacion: number;
+
+            if( this.afiliado.Calificacion.contador == 0){
+  
+              calificacion = (valor + this.afiliado.Calificacion.valor) / 2;
+        
+              this.afiliado.Calificacion = { contador: 2, valor: calificacion }
+      
+              this._auth.calificandoAfiliado( this.afiliado ).subscribe();
+            }else{
+        
+              calificacion = (this.afiliado.Calificacion.valor * this.afiliado.Calificacion.contador + valor)/
+                                  (this.afiliado.Calificacion.contador + 1)
+        
+              this.afiliado.Calificacion = { contador: this.afiliado.Calificacion.contador + 1, valor: calificacion }
+        
+              this._auth.calificandoAfiliado( this.afiliado ).subscribe();   
+            }
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              onOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            
+            Toast.fire({
+              icon: 'success',
+              title: 'Tu calificacion ha sido guardada'
+            })
+
+            this.salir();
           }
         }
       ]
@@ -253,49 +276,6 @@ export class EstadoSolicitudPage implements OnInit {
     }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
       localStorage.removeItem('idPeticion3');
     }
-    this._peticiones.getPeticion( this.peticion.id ).subscribe((resp:PeticionModel)=>{
-      this.peticionCalificacion = resp;
-
-      if( resp['calificacionUsuario'] ){
-
-        const calificacionUsuario = resp['calificacionUsuario'];
-        const typeUsuario: string = resp['typeIdUsuario'];
-
-        this._auth.getTodosUsuario().subscribe((resp)=>{
-          
-          this.usuarioArray = resp;
-
-         for( let item of this.usuarioArray){
-           if( item.typeId == typeUsuario ){
-
-             this.Usuario.id = item.id;
-             this.Usuario.calificacion = calificacionUsuario;
-             this.Usuario.nombre = item.nombre;
-             this.Usuario.apellido = item.apellido;
-             this.Usuario.celular = item.celular;
-             this.Usuario.direccion = item.direccion;
-             this.Usuario.fechaNacimiento = item.fechaNacimiento;
-             this.Usuario.typeId = item.typeId;
-
-             if( item.calificacion.contador == 0 ){
-               this.calificacion = ( this.peticionCalificacion.calificacionUsuario + item.calificacion.valor )/2;
-               this.Usuario.calificacion = { contador: 2, valor: this.calificacion };
-
-             }else{
-
-              this.calificacion = (item.calificacion.valor * item.calificacion.contador + this.peticionCalificacion.calificacionUsuario)/
-                                  (item.calificacion.contador + 1)
-
-              this.Usuario.calificacion = { contador: item.calificacion.contador + 1, valor: this.calificacion }
-
-             }
-             this._auth.actualizarUsuario( this.Usuario ).subscribe();
-             
-            }
-          }
-        });
-      } 
-    });
     setTimeout(() => location.reload(), 1000);
   }
 

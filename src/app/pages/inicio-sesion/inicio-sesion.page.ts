@@ -30,6 +30,7 @@ export class InicioSesionPage implements OnInit {
 
   }
 
+  usuarioTemporal: UsuarioModel = new UsuarioModel();
   login( form: NgForm ){
 
     if( form.invalid ){ return; }
@@ -51,6 +52,34 @@ export class InicioSesionPage implements OnInit {
         }else{
           localStorage.removeItem('email');
         }
+
+        this.auth.getUnUsuario();
+
+        setTimeout(()=>{
+
+          this.auth.getUsuario(localStorage.getItem('idUsuario')).subscribe((resp: UsuarioModel)=>{
+            this.usuarioTemporal = resp;
+  
+            console.log(this.usuarioTemporal.nombre, + " soy yo");
+            console.log(this.usuarioTemporal.peticiones.peticion, " Peticion 1");
+            console.log(this.usuarioTemporal.peticiones.peticion2, " Peticion 2");
+            console.log(this.usuarioTemporal.peticiones.peticion3, " Peticion 3");
+  
+            if(this.usuarioTemporal.peticiones.peticion !== undefined){
+              localStorage.setItem('idPeticion', this.usuarioTemporal.peticiones.peticion);
+            }
+
+            if(this.usuarioTemporal.peticiones.peticion2 !== undefined){
+              localStorage.setItem('idPeticion2', this.usuarioTemporal.peticiones.peticion2);
+            }
+
+            if(this.usuarioTemporal.peticiones.peticion3 !== undefined){
+              localStorage.setItem('idPeticion3', this.usuarioTemporal.peticiones.peticion3);
+            }  
+          })
+  
+
+        }, 1500)        
 
         if( localStorage.getItem('idServicio') ){
 

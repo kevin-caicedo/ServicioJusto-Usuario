@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { UsuarioModel } from '../models/Usuario.model';
 import { map } from 'rxjs/operators';
+import { AfiliadoModel } from '../models/afiliado.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,10 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expira');
     localStorage.removeItem('localId');
+    localStorage.removeItem('idPeticion');
+    localStorage.removeItem('idPeticion2');
+    localStorage.removeItem('idPeticion3');
+    localStorage.removeItem('idUsuario');
   }
 
   //Sevicio para iniciar sesión
@@ -123,6 +128,7 @@ export class AuthService {
         .pipe(
           map( (resp:any)=>{
             usuario.id = resp.name;
+            localStorage.setItem('idUsuario', usuario.id);
             return usuario;
           } )
         ) ;
@@ -175,6 +181,23 @@ export class AuthService {
         map( this.crearArregloServicio )
       );
 
+  }
+
+  usuarioArrayTemporal: UsuarioModel[] = [];
+  getUnUsuario(){
+    this.getTodosUsuario().subscribe(resp=>{
+      this.usuarioArrayTemporal = resp;
+
+      for( let item of this.usuarioArrayTemporal){
+        if(localStorage.getItem('localId') === item.typeId){
+          localStorage.setItem('idUsuario', item.id);
+        }
+      }
+    })
+  }
+
+  getUsuario( id: string ){
+    return this.http.get(`${ this.urlDatabase }/Usuario/${ id }.json`);
   }
 
   private crearArregloServicio( servicioObj: object){
@@ -262,6 +285,18 @@ export class AuthService {
     }
 
     return this.http.post(`${ this.url }:update?key=${ this.apikey }`, usuarioTemp);
+  }
+
+  calificandoAfiliado( afiliado: AfiliadoModel ){
+
+    const afiliadoTemporal = {
+      ... afiliado
+    }
+
+    delete afiliadoTemporal.id
+
+    return this.http.put(`${ this.urlDatabase }/Afiliado/${ afiliado.id }.json`, afiliadoTemporal);
+
   }
 
 }
