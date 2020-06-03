@@ -63,6 +63,8 @@ export class CerrarCuentaPage implements OnInit {
           localStorage.removeItem('localId');
           localStorage.removeItem('idUsuario');
 
+          setTimeout(() => location.reload(), 2500);
+
           setTimeout(() => this.router.navigate(['registro']), 1500);
         }else{
           Swal.fire(
@@ -71,9 +73,6 @@ export class CerrarCuentaPage implements OnInit {
             'warning'
           );
         }
-
-        
-
       }
     });
   }

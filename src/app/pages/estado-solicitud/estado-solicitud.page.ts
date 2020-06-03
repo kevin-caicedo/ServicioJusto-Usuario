@@ -110,6 +110,10 @@ export class EstadoSolicitudPage implements OnInit {
     }, 2000);
   }
 
+  recargar(){
+    this.ngOnInit();
+  }
+
   terminarServicio(){
     this._peticiones.getPeticion( this.peticion.id ).subscribe(resp=>{
 

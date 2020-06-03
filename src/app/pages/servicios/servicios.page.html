@@ -42,8 +42,12 @@
       <ion-card-title>Verificar cuenta</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Acabamos de enviar un mensaje a su correo electrónico, por favor verifique su cuenta
+      Acabamos de enviar un mensaje a su correo electrónico, por favor verifique su cuenta.
+      <br><br>
+      Una vez verificada su cuenta, haz click en el botón actualizar.
+      
     </ion-card-content>
+    <ion-button expand="block" href="javascript:location.reload()">Actualizar</ion-button>
   </ion-card>
 
   <ion-card  [routerLink]="['/servicio-especifico', servicio.id]" *ngFor="let servicio of servicios">

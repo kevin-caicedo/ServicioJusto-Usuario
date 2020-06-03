@@ -25,7 +25,14 @@
 
       <ion-item lines=none>
         <h1> {{ servicio.nombreServicio }}</h1>
+        
+        <ion-badge style="margin-top: 10px;" color="success" slot="end" (click)="recargar()">Actualizar
+          <ion-icon name="sync-outline"></ion-icon>
+        </ion-badge>
+        
       </ion-item>
+
+
 
       <ion-item>
         <ion-icon name="checkmark-circle-outline" *ngSwitchCase="'solicitado'"></ion-icon>
@@ -109,7 +116,7 @@
 
       <div slot="end">
         <ion-icon name="star"></ion-icon>
-      <ion-label>{{ calificacionAfiliado | number }}</ion-label>
+      <ion-label>{{ calificacionAfiliado | number: '1.1-1' }}</ion-label>
       </div>
           
     </ion-item>
