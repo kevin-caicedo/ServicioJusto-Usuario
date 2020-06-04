@@ -27,9 +27,6 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('expira');
     localStorage.removeItem('localId');
-    localStorage.removeItem('idPeticion');
-    localStorage.removeItem('idPeticion2');
-    localStorage.removeItem('idPeticion3');
     localStorage.removeItem('idUsuario');
   }
 

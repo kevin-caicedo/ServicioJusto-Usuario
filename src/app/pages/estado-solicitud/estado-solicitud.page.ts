@@ -79,15 +79,6 @@ export class EstadoSolicitudPage implements OnInit {
 
       });
 
-      if(this.peticion.estado === 'finalizado'){
-        if( this.peticion.id ===  localStorage.getItem('idPeticion')){
-          localStorage.removeItem('idPeticion');
-        }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
-          localStorage.removeItem('idPeticion2');
-        }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
-          localStorage.removeItem('idPeticion3');
-        }
-      }
     });
 
     this._auth.getTodosUsuario().subscribe(resp=>{
@@ -100,6 +91,9 @@ export class EstadoSolicitudPage implements OnInit {
         }
       }
     })
+
+    // setInterval(() => this.ngOnInit() , 5000);
+    
   }
 
   doRefresh(event) {
@@ -140,21 +134,26 @@ export class EstadoSolicitudPage implements OnInit {
         if( aceptar.value ){
 
           if( resp['estado'] === 'solicitado'){
-            this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
+            
+
+            this._auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((resp: UsuarioModel)=>{
+              let usuarioT = resp;
+              usuarioT.id = localStorage.getItem('idUsuario');
+
+              for(let i = 0; i<usuarioT.peticiones.length; i++){
+                if(usuarioT.peticiones[i] === this.peticion.id){
+                  usuarioT.peticiones.splice(i, 1);
+                  break;
+                }
+              }
+              this._auth.actualizarUsuario( usuarioT ).subscribe();
+              this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
+            })
             
             this.router.navigate(['servicios']);
 
             setTimeout(() => location.reload(), 1000);
-            if( this.peticion.id ===  localStorage.getItem('idPeticion')){
-              localStorage.removeItem('idPeticion');
-              return;
-            }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
-              localStorage.removeItem('idPeticion2');
-              return;
-            }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
-              localStorage.removeItem('idPeticion3');
-              return;
-            }
+            
           }else{
             Swal.fire(
               `Tu servicio está en ejecución`,
@@ -165,13 +164,9 @@ export class EstadoSolicitudPage implements OnInit {
           }
         }else{
           this.router.navigate(['estado-solicitud', localStorage.getItem('idPeticion')]);
-        }
-        
+        }  
       });
-     
-
     });
-
   }
 
   async presentAlertRadio() {
@@ -273,13 +268,19 @@ export class EstadoSolicitudPage implements OnInit {
 
   salir(){
     this.router.navigate(['servicios']);
-    if( this.peticion.id ===  localStorage.getItem('idPeticion')){
-      localStorage.removeItem('idPeticion');
-    }else if( this.peticion.id ===  localStorage.getItem('idPeticion2') ){
-      localStorage.removeItem('idPeticion2');
-    }else if( this.peticion.id ===  localStorage.getItem('idPeticion3') ){
-      localStorage.removeItem('idPeticion3');
-    }
+    this._auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((resp: UsuarioModel)=>{
+      let usuarioT = resp;
+      usuarioT.id = localStorage.getItem('idUsuario');
+
+      for(let i = 0; i<usuarioT.peticiones.length; i++){
+        if(usuarioT.peticiones[i] === this.peticion.id){
+          usuarioT.peticiones.splice(i, 1);
+          break;
+        }
+      }
+      this._auth.actualizarUsuario( usuarioT ).subscribe();
+      this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
+    })
     setTimeout(() => location.reload(), 1000);
   }
 

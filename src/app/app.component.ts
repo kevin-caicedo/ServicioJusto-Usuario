@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
           icon: 'headset'
         },
         {
-          title: 'Mis pedidos',
+          title: 'Historial de pedidos',
           url: '/mis-pedidos',
           icon: 'reader'
         },
@@ -86,10 +86,6 @@ export class AppComponent implements OnInit {
       ];
 
     }
-
-   
-
-
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
@@ -98,25 +94,9 @@ export class AppComponent implements OnInit {
 
   usuario: UsuarioModel = new UsuarioModel();
   cerrarSesion(){
-  
-    this.auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((resp: UsuarioModel)=>{
-      this.usuario = resp;
-      this.usuario.id = localStorage.getItem('idUsuario');
 
-      this.usuario.peticiones = {
-        peticion: localStorage.getItem('idPeticion'),
-        peticion2: localStorage.getItem('idPeticion2'),
-        peticion3: localStorage.getItem('idPeticion3')
-      }
-
-      this.auth.actualizarUsuario(this.usuario).subscribe();
-    })
-
-    setTimeout(() => {
-      this.auth.logout();
-      location.reload();
-    }, 1000);
-
+    this.auth.logout();
+    location.reload();
     this.router.navigateByUrl('/inicio-sesion');
   }
 }

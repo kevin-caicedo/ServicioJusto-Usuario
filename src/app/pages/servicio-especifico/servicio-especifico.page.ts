@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { UsuarioModel } from '../../models/Usuario.model';
 import { PeticionesService } from 'src/app/services/peticiones.service';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-servicio-especifico',
@@ -22,12 +23,15 @@ export class ServicioEspecificoPage implements OnInit {
   direccion: string;
   pago: string;
   entra: boolean = true;
+  peticionArrayTemporal: string[] = [];
+  usuarioTemporal : UsuarioModel;
 
   constructor(private activatedRoute: ActivatedRoute, private servicioService: ServiciosService, 
               private router: Router,
               private auth: AuthService, 
               private _peticion: PeticionesService,
               private _auth: AuthService,
+              public alertController: AlertController,
               public geolocation: Geolocation) { }
 
   ngOnInit() {
@@ -75,9 +79,9 @@ export class ServicioEspecificoPage implements OnInit {
     
   }
 
-  confirmacion(){
+  entrando: boolean = false;
 
-    if( !localStorage.getItem('idPeticion') || !localStorage.getItem('idPeticion2') || !localStorage.getItem('idPeticion3') ){
+  confirmacion(){
 
         if(!this.pago){
           Swal.fire(
@@ -104,82 +108,131 @@ export class ServicioEspecificoPage implements OnInit {
           this.peticion.pago = this.pago
 
           if( resp.value ){            
-            if(localStorage.getItem('idPeticion')){
+          
+              this._auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((respUsuario: UsuarioModel)=>{
+                this.usuarioTemporal = respUsuario;
+                this.usuarioTemporal.id = localStorage.getItem('idUsuario');                
 
-              this._peticion.getPeticion( localStorage.getItem('idPeticion') ).subscribe((resp: PeticionModel)=>{
-                let peticionTemporal: PeticionModel = resp;
-                if(peticionTemporal.idServicio === this.peticion.idServicio){
-                  this.validarServicio(false);
+                if( this.usuarioTemporal.peticiones ){
+
+                  if( this.usuarioTemporal.peticiones.length != 3 ){
+
+                    this.verficaAgregarServicio();
+                    
+                  }else{
+                    console.log('Esta seguro que eres tu');
+
+                    this.autentica();
+                    
+                  }
+                  
+                }else{
+                    this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
+                    this.peticion = resp;
+                    this.usuarioTemporal.peticiones = [ this.peticion.id ];
+                    this.router.navigate(['estado-solicitud', this.peticion.id]);
+                    this._auth.actualizarUsuario( this.usuarioTemporal ).subscribe();
+                  });
                 }
-              })
-
-            }
-            if(localStorage.getItem('idPeticion2')){
-
-              this._peticion.getPeticion( localStorage.getItem('idPeticion2') ).subscribe((resp: PeticionModel)=>{
-                let peticionTemporal: PeticionModel = resp;
-                if(peticionTemporal.idServicio === this.peticion.idServicio){
-                  this.validarServicio(false);   
-                }
-              })
-
-            }
-            if(localStorage.getItem('idPeticion3')){
-
-              this._peticion.getPeticion( localStorage.getItem('idPeticion3') ).subscribe((resp: PeticionModel)=>{
-                let peticionTemporal: PeticionModel = resp;
-                if(peticionTemporal.idServicio === this.peticion.idServicio){
-                  this.validarServicio(false);
-                }
-              })
-            }
-
-            setTimeout(()=>{              
-            this.validarServicio(true);
-            }, 1500);
-            
-          }
-            
-            
+              })            
+          }                
         });
-      }else{
-        Swal.fire(
-          'Atención!',
-          'No puede solicitar mas servicios!',
-          'warning'
-        );
+    }
+
+    verficaAgregarServicio(){
+
+      for(let i = 0; i<this.usuarioTemporal.peticiones.length; i++){
+
+        this._peticion.getPeticion( this.usuarioTemporal.peticiones[i] ).subscribe((resp: PeticionModel)=>{
+          let peticionT: PeticionModel = resp;
+          
+          if(peticionT.idServicio === this.peticion.idServicio){
+            Swal.fire(
+              'Atención!',
+              'Ya tienes un servicio similar en desarrollo',
+              'warning'
+            )
+            this.entrando = true;
+          }                                          
+        })
+
+        if(this.entrando){
+          break;
+        }
       }
+
+      setTimeout(() => {
+
+        if(!this.entrando){
+          this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
+            this.peticion = resp;
+            this.usuarioTemporal.peticiones.push( this.peticion.id );
+            this.router.navigate(['estado-solicitud', this.peticion.id]);
+            this._auth.actualizarUsuario( this.usuarioTemporal ).subscribe();
+          });
+          return;
+        }  
+
+      },1500);
+
+      
+    }
+
+    async incorrecto() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Atención',
+        subHeader: 'Autenticación fallida',
+        message: 'Datos incorrectos.',
+        buttons: ['OK']
+      });
+  
+      await alert.present();
     }
 
 
-    validarServicio( si: boolean ){
-
-      if(this.entra){
-        
-        if( si ){
-          
-          this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
-            this.peticion = resp;
-            if(!localStorage.getItem('idPeticion')){
-              localStorage.setItem('idPeticion', this.peticion.id);
-            }else if( localStorage.getItem('idPeticion') && !localStorage.getItem('idPeticion2')){
-              localStorage.setItem('idPeticion2', this.peticion.id);
-            }else if( localStorage.getItem('idPeticion2' ) && !localStorage.getItem('idPeticion3') ){
-              localStorage.setItem('idPeticion3', this.peticion.id);
+    async autentica() {
+      const alert = await this.alertController.create({
+        cssClass: 'my-custom-class',
+        header: 'Confirma tu cuenta, para solicitar más servicios!',
+        inputs: [
+          {
+            name: 'correo',
+            type: 'email',
+            placeholder: 'Correo'
+          },
+          {
+            name: 'contrasena',
+            type: 'password',
+            placeholder: 'Contraseña'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: () => {
+              console.log('Confirm Cancel');
             }
-            this.router.navigate(['estado-solicitud', this.peticion.id]);
-          });
+          }, {
+            text: 'Ok',
+            handler: ( blah ) => {
+
+              this.usuarioTemporal.email = blah.correo;
+              this.usuarioTemporal.password = blah.contrasena;
+
+              this._auth.login( this.usuarioTemporal ).subscribe(resp=>{
+                this.verficaAgregarServicio();
+              }, err =>{
+                this.incorrecto();
+              })
+              
+            }
+          }
+        ]
+      });
   
-          this.entra = false;
-  
-        }else{
-          Swal.fire(
-            'Atención!',
-            'No puede solicitar dos veces el mismo servicio!',
-            'warning'
-          );
-          this.entra = false;
-        }
-      }    
+      await alert.present();
     }
 }
