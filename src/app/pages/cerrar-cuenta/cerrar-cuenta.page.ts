@@ -13,13 +13,11 @@ export class CerrarCuentaPage implements OnInit {
 
   usuario: UsuarioModel = new UsuarioModel();
   usuarioArray: UsuarioModel[] = [];
-  idToken: string;
 
   constructor( private auth: AuthService, private router: Router ) { }
 
   ngOnInit() {
     this.traeDato();
-
   }
 
   traeDato(){
@@ -34,10 +32,6 @@ export class CerrarCuentaPage implements OnInit {
         }
       }
     });
-
-
-    this.idToken = this.auth.leerToken();
-    this.usuario.nombre = this.idToken;
   }
 
   cerrarCuenta(){
@@ -55,20 +49,20 @@ export class CerrarCuentaPage implements OnInit {
         this.auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((resp: UsuarioModel)=>{
           let respuesta: UsuarioModel = resp;
 
-          if(respuesta.peticiones){
+          if(!respuesta.peticiones){
 
-            this.auth.eliminarCuentaCorreo( this.usuario ).subscribe( );
-
+            this.auth.eliminarCuentaCorreo( ).subscribe();
             this.auth.eliminarCuentaDatos( this.usuario.id ).subscribe();
-  
-            localStorage.removeItem('token');
-            localStorage.removeItem('expira');
-            localStorage.removeItem('localId');
-            localStorage.removeItem('idUsuario');
-  
-            setTimeout(() => location.reload(), 2500);
-  
-            setTimeout(() => this.router.navigate(['registro']), 1500);
+            
+            this.router.navigate(['registro']);
+            
+            setTimeout(() => {
+              localStorage.removeItem('token');
+              localStorage.removeItem('expira');
+              localStorage.removeItem('localId');
+              localStorage.removeItem('idUsuario');
+              location.reload()
+            }, 1500)
 
           }else{
             Swal.fire(

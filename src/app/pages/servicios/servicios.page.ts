@@ -32,7 +32,10 @@ export class ServiciosPage implements OnInit {
     });
 
     this._auth.getUsuario( localStorage.getItem('idUsuario') ).subscribe((resp: UsuarioModel)=>{
-      this.usuario = resp;
+      if( resp['peticiones'] ){
+        this.usuario = resp;
+      }
+
     })
     
   }

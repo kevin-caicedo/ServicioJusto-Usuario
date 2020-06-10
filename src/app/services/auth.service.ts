@@ -250,10 +250,10 @@ export class AuthService {
    * @author Kevin Caicedo
    * @param usuario 
    */
-  eliminarCuentaCorreo( usuario: UsuarioModel ){
+  eliminarCuentaCorreo( ){
 
     const authData = {
-      idToken: usuario.nombre
+      idToken: localStorage.getItem('token')
     };
 
     return this.http.post(`${ this.url }:delete?key=${ this.apikey }`, authData);

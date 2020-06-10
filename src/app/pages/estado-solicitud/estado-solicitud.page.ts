@@ -90,10 +90,7 @@ export class EstadoSolicitudPage implements OnInit {
           this.pqrsEnvio.nombreUsuario = item.nombre + " " + item.apellido
         }
       }
-    })
-
-    // setInterval(() => this.ngOnInit() , 5000);
-    
+    })    
   }
 
   doRefresh(event) {
@@ -279,7 +276,6 @@ export class EstadoSolicitudPage implements OnInit {
         }
       }
       this._auth.actualizarUsuario( usuarioT ).subscribe();
-      this._peticiones.cancelarPeticion( this.peticion.id ).subscribe();
     })
     setTimeout(() => location.reload(), 1000);
   }

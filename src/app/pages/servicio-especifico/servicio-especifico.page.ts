@@ -125,7 +125,6 @@ export class ServicioEspecificoPage implements OnInit {
                     this.autentica();
                     
                   }
-                  
                 }else{
                     this._peticion.agregarPeticion( this.peticion ).subscribe( resp =>{
                     this.peticion = resp;
